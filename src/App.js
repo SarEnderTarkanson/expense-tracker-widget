@@ -2,6 +2,7 @@ import React from "react";
 import AddExpenseForm from "./components/AddExpenseForm";
 import ExpenseList from "./components/ExpenseList";
 import ExpenseChart from "./components/ExpenseChart";
+import {data} from './constants/constants'
 import './App.css'
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
               <ExpenseList />
             </div>
             <div className="col-12">
-              <ExpenseChart />
+              <ExpenseChart data={data}/>
             </div>
           </div>
         </div>
