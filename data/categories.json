@@ -1,0 +1,11 @@
+{
+  "categories": [
+    { "id": 1, "name": "Housing" },
+    { "id": 2, "name": "Food" },
+    { "id": 3, "name": "Entertainment" },
+    { "id": 4, "name": "Subscriptions" },
+    { "id": 5, "name": "Childcare" },
+    { "id": 6, "name": "Transportation" },
+    { "id": 7, "name": "Other" }
+  ]
+}
