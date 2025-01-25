@@ -1,0 +1,88 @@
+{
+  "expense_list": [
+    {
+      "id": 1,
+      "name": "Groceries",
+      "category": "Food",
+      "date": "2025-01-15",
+      "amount": 6000
+    },
+    {
+      "id": 2,
+      "name": "NetFlix Monthly Fee",
+      "category": "Entertainment",
+      "date": "2025-01-18",
+      "amount": 149
+    },
+    {
+      "id": 3,
+      "name": "Mobile Phone Monthly Subscription Fee",
+      "category": "Subscriptions",
+      "date": "2025-01-20",
+      "amount": 299
+    },
+    {
+      "id": 4,
+      "name": "House Rent",
+      "category": "Housing",
+      "date": "2025-01-15",
+      "amount": 12500
+    },
+    {
+      "id": 5,
+      "name": "Childcare",
+      "category": "Children",
+      "date": "2025-01-20",
+      "amount": 1440
+    },
+    {
+      "id": 6,
+      "name": "Credit Card",
+      "category": "Other",
+      "date": "2025-01-23",
+      "amount": 1575
+    },
+    {
+      "id": 7,
+      "name": "Union",
+      "category": "Other",
+      "date": "2025-01-24",
+      "amount": 625
+    },
+    {
+      "id": 8,
+      "name": "Electricity",
+      "category": "Housing",
+      "date": "2025-01-22",
+      "amount": 2100
+    },
+    {
+      "id": 9,
+      "name": "Toys for Children",
+      "category": "Childcare",
+      "date": "2025-01-25",
+      "amount": 1000
+    },
+    {
+      "id": 10,
+      "name": "Cinema",
+      "category": "Entertainment",
+      "date": "2025-01-25",
+      "amount": 250
+    },
+    {
+      "id": 11,
+      "name": "Monthly train ticket",
+      "category": "Transportation",
+      "date": "2025-01-30",
+      "amount": 3980
+    },
+    {
+      "id": 12,
+      "name": "New coat",
+      "category": "Other",
+      "date": "2025-01-10",
+      "amount": 895
+    }
+  ]
+}
