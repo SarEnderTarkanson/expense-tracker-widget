@@ -2,27 +2,69 @@ import React, { useState } from "react";
 import "./styles.css";
 
 function AddExpenseForm() {
+  const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
-  const [warning, setWarning] = useState("");
+  const [category, setCategory] = useState("");
+  const [warnings, setWarnings] = useState({
+    name: "",
+    amount: "",
+    category: "",
+  });
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+    if (e.target.value.trim() !== "") {
+      setWarnings((prev) => ({ ...prev, name: "" }));
+    }
+  };
 
   const handleAmountChange = (e) => {
     const value = e.target.value;
 
     if (value === "" || (value > 0 && !isNaN(value))) {
       setAmount(value);
-      setWarning("");
+      setWarnings((prev) => ({ ...prev, amount: "" }));
     } else {
-      setWarning("Only positive numbers are allowed.");
+      setWarnings((prev) => ({
+        ...prev,
+        amount: "Only positive numbers are allowed.",
+      }));
+    }
+  };
+
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value);
+    if (e.target.value !== "") {
+      setWarnings((prev) => ({ ...prev, category: "" }));
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let formIsValid = true;
+    const newWarnings = {};
+
+    if (name.trim() === "") {
+      newWarnings.name = "Please enter a name.";
+      formIsValid = false;
+    }
+
     if (!amount || amount <= 0) {
-      setWarning("Please enter a positive number for the amount.");
+      newWarnings.amount = "Please enter a positive number for the amount.";
+      formIsValid = false;
+    }
+
+    if (category === "") {
+      newWarnings.category = "Please select a category.";
+      formIsValid = false;
+    }
+
+    if (!formIsValid) {
+      setWarnings(newWarnings);
       return;
     }
-    console.log("Expense added:", { amount });
+
+    console.log("Expense added:", { name, amount, category });
   };
 
   return (
@@ -41,10 +83,17 @@ function AddExpenseForm() {
             className="form-control"
             id="name"
             name="name"
+            value={name}
+            onChange={handleNameChange}
             placeholder="Enter expense name"
             aria-required="true"
             required
           />
+          {warnings.name && (
+            <small id="name-error" className="text-danger" role="alert">
+              {warnings.name}
+            </small>
+          )}
         </div>
 
         <div className="mb-4">
@@ -67,9 +116,9 @@ function AddExpenseForm() {
           <small id="amount-help" className="form-text text-muted">
             Enter a positive number greater than zero.
           </small>
-          {warning && (
+          {warnings.amount && (
             <small id="amount-error" className="text-danger" role="alert">
-              {warning}
+              {warnings.amount}
             </small>
           )}
         </div>
@@ -78,20 +127,34 @@ function AddExpenseForm() {
           <label htmlFor="category" className="form-label">
             Category
           </label>
-          <input
-            type="text"
-            className="form-control"
+          <select
             id="category"
+            className="form-select category-dropdown"
             name="category"
-            placeholder="Enter category"
+            value={category}
+            onChange={handleCategoryChange}
             aria-describedby="category-help"
-          />
+            required
+          >
+            <option value="">-- Select a Category --</option>
+            <option value="Food">Food</option>
+            <option value="Housing">Housing</option>
+            <option value="Travel">Travel</option>
+            <option value="Leisure">Leisure</option>
+            <option value="Bills">Bills</option>
+            <option value="Services">Services</option>
+          </select>
           <small id="category-help" className="form-text text-muted">
             Please specify the category for this expense.
           </small>
+          {warnings.category && (
+            <small id="category-error" className="text-danger" role="alert">
+              {warnings.category}
+            </small>
+          )}
         </div>
 
-        <div className="d-flex justify-content-center mt-auto">
+        <div className="d-flex flex-column justify-content-end align-items-center p-3 h-100">
           <button
             type="submit"
             className="btn btn-primary w-50"

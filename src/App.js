@@ -7,9 +7,6 @@ import './App.css'
 function App() {
   return (
     <>
-      <head>
-        <title>Expense Tracker</title>
-      </head>
       <main className="container mt-4" role="main" aria-labelledby="app-title">
         <h1 id="app-title">Expense Tracker</h1>
         <div className="container mt-4">
