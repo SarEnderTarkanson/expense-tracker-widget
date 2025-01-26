@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useTheme } from "../context/ThemeContext";
 import "./styles.css";
 
 function AddExpenseForm() {
+  const { theme } = useTheme();
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
@@ -68,9 +70,15 @@ function AddExpenseForm() {
   };
 
   return (
-    <div
-      className="p-4 border rounded bg-light equal-height d-flex flex-column"
+    <section
+      className="p-4 border rounded equal-height d-flex flex-column"
       aria-labelledby="add-expense-form-title"
+      style={{
+        backgroundColor: theme === "light" ? "#f9f9f9" : "#333",
+        color: theme === "light" ? "#000" : "#fff",
+        borderColor: theme === "light" ? "#ccc" : "#555",
+        transition: "background-color 0.3s ease, color 0.3s ease",
+      }}
     >
       <h5 id="add-expense-form-title">Add Expense</h5>
       <form className="d-flex flex-column" onSubmit={handleSubmit} noValidate>
@@ -88,6 +96,11 @@ function AddExpenseForm() {
             placeholder="Enter expense name"
             aria-required="true"
             required
+            style={{
+              backgroundColor: theme === "light" ? "#fff" : "#444",
+              color: theme === "light" ? "#000" : "#fff",
+              borderColor: theme === "light" ? "#ccc" : "#666",
+            }}
           />
           {warnings.name && (
             <small id="name-error" className="text-danger" role="alert">
@@ -112,6 +125,11 @@ function AddExpenseForm() {
             aria-describedby="amount-help amount-error"
             aria-required="true"
             required
+            style={{
+              backgroundColor: theme === "light" ? "#fff" : "#444",
+              color: theme === "light" ? "#000" : "#fff",
+              borderColor: theme === "light" ? "#ccc" : "#666",
+            }}
           />
           <small id="amount-help" className="form-text text-muted">
             Enter a positive number greater than zero.
@@ -135,6 +153,11 @@ function AddExpenseForm() {
             onChange={handleCategoryChange}
             aria-describedby="category-help"
             required
+            style={{
+              backgroundColor: theme === "light" ? "#fff" : "#444",
+              color: theme === "light" ? "#000" : "#fff",
+              borderColor: theme === "light" ? "#ccc" : "#666",
+            }}
           >
             <option value="">-- Select a Category --</option>
             <option value="Food">Food</option>
@@ -164,7 +187,7 @@ function AddExpenseForm() {
           </button>
         </div>
       </form>
-    </div>
+    </section>
   );
 }
 
