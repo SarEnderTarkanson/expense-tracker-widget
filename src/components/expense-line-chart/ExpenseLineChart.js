@@ -10,6 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { useTheme } from "../../context/ThemeContext";
+import './expense-line-chart-styles.css'
 import "../styles.css";
 
 ChartJS.register(
