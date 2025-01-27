@@ -1,0 +1,125 @@
+.equal-height {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 500px;
+}
+
+.expense-list-section {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.expense-list-section.light {
+  background-color: #f9f9f9;
+  color: #000;
+  border-color: #ccc;
+}
+
+.expense-list-section.dark {
+  background-color: #333;
+  color: #fff;
+  border-color: #555;
+}
+
+.filter-category-select {
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.filter-category-select.light {
+  background-color: #fff;
+  color: #000;
+  border-color: #ccc;
+}
+
+.filter-category-select.dark {
+  background-color: #444;
+  color: #fff;
+  border-color: #666;
+}
+
+.expense-list-scroll-container {
+    max-height: 300px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    transition: scrollbar-color 0.3s ease;
+  }
+
+  .expense-list-scroll-container.light {
+    scrollbar-color: #ccc #f9f9f9;
+  }
+  
+  .expense-list-scroll-container.light::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .expense-list-scroll-container.light::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); 
+  }
+  
+  .expense-list-scroll-container.light::-webkit-scrollbar-track {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+  }
+
+  .expense-list-scroll-container.dark {
+    scrollbar-color: #666 #333; 
+  }
+  
+  .expense-list-scroll-container.dark::-webkit-scrollbar {
+    width: 8px; 
+  }
+  
+  .expense-list-scroll-container.dark::-webkit-scrollbar-thumb {
+    background-color: #666;
+    border-radius: 25px; 
+    box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
+  }
+  
+  .expense-list-scroll-container.dark::-webkit-scrollbar-track {
+    background-color: #333; 
+    border-radius: 10px; 
+  }
+  
+.expense-list-table-header {
+    border: 1px solid;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .expense-list-table-header.light {
+    background-color: #fff;
+    color: #000;
+    border-color: #ccc;
+  }
+
+  .expense-list-table-header.dark {
+    background-color: #444;
+    color: #fff;
+    border-color: #666;
+  }
+
+.editable-cell {
+    border: 1px solid;
+    padding: 0.5rem;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .editable-cell.light {
+    background-color: #fff;
+    color: #000;
+    border-color: #ccc;
+  }
+  
+  .editable-cell.dark {
+    background-color: #444;
+    color: #fff;
+    border-color: #666;
+  }
+
+.editable-text {
+    cursor: pointer;
+    border-bottom: 1px dashed #007bff;
+  }
+  

@@ -24,3 +24,13 @@ export const hoverBackgroundColor = [
   "#9966FF",
   "#FF9F40",
 ];
+
+export const mockData = [
+  { date: "2025-01-01", category: "Food", amount: 50 },
+  { date: "2025-01-02", category: "Housing", amount: 75 },
+  { date: "2025-01-03", category: "Other", amount: 100 },
+  { date: "2025-01-04", category: "Transportation", amount: 60 },
+  { date: "2025-01-05", category: "Childcare", amount: 120 },
+  { date: "2025-01-06", category: "Entertainment", amount: 90 },
+  { date: "2025-01-07", category: "Travel", amount: 150 },
+];

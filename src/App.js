@@ -1,8 +1,9 @@
 import React from "react";
-import AddExpenseForm from "./components/AddExpenseForm";
-import ExpenseList from "./components/ExpenseList";
-import ExpenseChart from "./components/ExpenseChart";
-import { data } from "./constants/constants";
+import AddExpenseForm from "./components/add-expense-form/AddExpenseForm";
+import ExpenseList from "./components/expense-list/ExpenseList";
+import ExpenseChart from "./components/expense-chart/ExpenseChart";
+import ExpenseLineChart from "./components/expense-line-chart/ExpenseLineChart";
+import { data, mockData } from "./constants/constants";
 import { useTheme } from "./context/ThemeContext";
 import "./App.css";
 
@@ -11,30 +12,9 @@ function App() {
 
   return (
     <>
-      <header
-        className="header"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "10px 20px",
-          background: theme === "light" ? "#f9f9f9" : "#333",
-          color: theme === "light" ? "#000" : "#fff",
-        }}
-      >
+      <header className={`header ${theme}`}>
         <h1 id="app-title">Expense Tracker</h1>
-        <button
-          onClick={toggleTheme}
-          style={{
-            padding: "8px 12px",
-            fontSize: "14px",
-            background: theme === "light" ? "#000" : "#fff",
-            color: theme === "light" ? "#fff" : "#000",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-        >
+        <button className={`theme-toggle-btn ${theme}`} onClick={toggleTheme}>
           {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
         </button>
       </header>
@@ -47,8 +27,11 @@ function App() {
             <div className="col-md-6">
               <ExpenseList />
             </div>
-            <div className="col-12">
+            <div className="col-md-6">
               <ExpenseChart data={data} />
+            </div>
+            <div className="col-md-6">
+              <ExpenseLineChart data={mockData} />
             </div>
           </div>
         </div>

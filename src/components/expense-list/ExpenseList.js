@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useTheme } from "../context/ThemeContext";
-import "./styles.css";
+import { useTheme } from "../../context/ThemeContext";
+import "./expense-list-styles.css";
+import "../styles.css";
 
-function ExpenseList() {
+const ExpenseList = () => {
   const { theme } = useTheme();
   const [expenses, setExpenses] = useState([
     { name: "Groceries", category: "Food", date: "2023-01-01", amount: 50 },
@@ -88,14 +89,8 @@ function ExpenseList() {
 
   return (
     <section
-      className="p-4 border rounded equal-height d-flex flex-column"
+      className={`p-4 border rounded equal-height d-flex flex-column expense-list-section ${theme}`}
       aria-labelledby="expense-list-title"
-      style={{
-        backgroundColor: theme === "light" ? "#f9f9f9" : "#333",
-        color: theme === "light" ? "#000" : "#fff",
-        borderColor: theme === "light" ? "#ccc" : "#555",
-        transition: "background-color 0.3s ease, color 0.3s ease",
-      }}
     >
       <h5 id="expense-list-title">Expense List</h5>
       <div className="mb-3">
@@ -104,14 +99,9 @@ function ExpenseList() {
         </label>
         <select
           id="filter-category"
-          className="form-select"
+          className={`form-select filter-category-select ${theme}`}
           value={filterCategory}
           onChange={handleFilterChange}
-          style={{
-            backgroundColor: theme === "light" ? "#fff" : "#444",
-            color: theme === "light" ? "#000" : "#fff",
-            borderColor: theme === "light" ? "#ccc" : "#666",
-          }}
         >
           <option value="">All</option>
           <option value="Food">Food</option>
@@ -122,26 +112,12 @@ function ExpenseList() {
           <option value="Services">Services</option>
         </select>
       </div>
-      <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+      <div className={`expense-list-scroll-container ${theme}`}>
         <table className="table">
           <thead>
             <tr>
-              <th
-                style={{
-                  backgroundColor: theme === "light" ? "#fff" : "#444",
-                  color: theme === "light" ? "#000" : "#fff",
-                  borderColor: theme === "light" ? "#ccc" : "#666",
-                }}
-              >
-                Name
-              </th>
-              <th
-                style={{
-                  backgroundColor: theme === "light" ? "#fff" : "#444",
-                  color: theme === "light" ? "#000" : "#fff",
-                  borderColor: theme === "light" ? "#ccc" : "#666",
-                }}
-              >
+              <th className={`expense-list-table-header ${theme}`}>Name</th>
+              <th className={`expense-list-table-header ${theme}`}>
                 <button
                   className="btn btn-link p-0 d-flex align-items-center gap-1"
                   onClick={() => handleSort("category")}
@@ -149,13 +125,7 @@ function ExpenseList() {
                   Category {getSortIcon("category")}
                 </button>
               </th>
-              <th
-                style={{
-                  backgroundColor: theme === "light" ? "#fff" : "#444",
-                  color: theme === "light" ? "#000" : "#fff",
-                  borderColor: theme === "light" ? "#ccc" : "#666",
-                }}
-              >
+              <th className={`expense-list-table-header ${theme}`}>
                 <button
                   className="btn btn-link p-0 d-flex align-items-center gap-1"
                   onClick={() => handleSort("date")}
@@ -163,13 +133,7 @@ function ExpenseList() {
                   Date {getSortIcon("date")}
                 </button>
               </th>
-              <th
-                style={{
-                  backgroundColor: theme === "light" ? "#fff" : "#444",
-                  color: theme === "light" ? "#000" : "#fff",
-                  borderColor: theme === "light" ? "#ccc" : "#666",
-                }}
-              >
+              <th className={`expense-list-table-header ${theme}`}>
                 <button
                   className="btn btn-link p-0 d-flex align-items-center gap-1"
                   onClick={() => handleSort("amount")}
@@ -183,15 +147,7 @@ function ExpenseList() {
             {filteredExpenses.map((expense, index) => (
               <tr key={index}>
                 {Object.keys(expense).map((key) => (
-                  <td
-                    key={key}
-                    className="editable-cell"
-                    style={{
-                      backgroundColor: theme === "light" ? "#fff" : "#444",
-                      color: theme === "light" ? "#000" : "#fff",
-                      borderColor: theme === "light" ? "#ccc" : "#666",
-                    }}
-                  >
+                  <td key={key} className={`editable-cell ${theme}`}>
                     {editing?.index === index && editing?.key === key ? (
                       <input
                         type={key === "amount" ? "number" : "text"}
@@ -204,10 +160,7 @@ function ExpenseList() {
                     ) : (
                       <span
                         onClick={() => setEditing({ index, key })}
-                        style={{
-                          cursor: "pointer",
-                          borderBottom: "1px dashed #007bff",
-                        }}
+                        className="editable-text"
                       >
                         {expense[key]}
                       </span>

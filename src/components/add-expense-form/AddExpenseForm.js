@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useTheme } from "../context/ThemeContext";
-import "./styles.css";
+import { useTheme } from "../../context/ThemeContext";
+import "./add-expense-form-styles.css";
+import "../styles.css";
 
-function AddExpenseForm() {
+const AddExpenseForm =() => {
   const { theme } = useTheme();
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
@@ -71,14 +72,8 @@ function AddExpenseForm() {
 
   return (
     <section
-      className="p-4 border rounded equal-height d-flex flex-column"
+      className={`p-4 border rounded equal-height d-flex flex-column add-expense-section ${theme}`}
       aria-labelledby="add-expense-form-title"
-      style={{
-        backgroundColor: theme === "light" ? "#f9f9f9" : "#333",
-        color: theme === "light" ? "#000" : "#fff",
-        borderColor: theme === "light" ? "#ccc" : "#555",
-        transition: "background-color 0.3s ease, color 0.3s ease",
-      }}
     >
       <h5 id="add-expense-form-title">Add Expense</h5>
       <form className="d-flex flex-column" onSubmit={handleSubmit} noValidate>
@@ -88,7 +83,7 @@ function AddExpenseForm() {
           </label>
           <input
             type="text"
-            className="form-control"
+            className={`form-control input-field ${theme}`}
             id="name"
             name="name"
             value={name}
@@ -96,11 +91,6 @@ function AddExpenseForm() {
             placeholder="Enter expense name"
             aria-required="true"
             required
-            style={{
-              backgroundColor: theme === "light" ? "#fff" : "#444",
-              color: theme === "light" ? "#000" : "#fff",
-              borderColor: theme === "light" ? "#ccc" : "#666",
-            }}
           />
           {warnings.name && (
             <small id="name-error" className="text-danger" role="alert">
@@ -115,7 +105,7 @@ function AddExpenseForm() {
           </label>
           <input
             type="number"
-            className="form-control"
+            className={`form-control input-field ${theme}`}
             id="amount"
             name="amount"
             value={amount}
@@ -125,17 +115,16 @@ function AddExpenseForm() {
             aria-describedby="amount-help amount-error"
             aria-required="true"
             required
-            style={{
-              backgroundColor: theme === "light" ? "#fff" : "#444",
-              color: theme === "light" ? "#000" : "#fff",
-              borderColor: theme === "light" ? "#ccc" : "#666",
-            }}
           />
-          <small id="amount-help" className="form-text text-muted">
+          <small id="amount-help" className={`small-text ${theme}`}>
             Enter a positive number greater than zero.
           </small>
           {warnings.amount && (
-            <small id="amount-error" className="text-danger" role="alert">
+            <small
+              id="amount-error"
+              className={`text-danger small-text ${theme}`}
+              role="alert"
+            >
               {warnings.amount}
             </small>
           )}
@@ -147,19 +136,16 @@ function AddExpenseForm() {
           </label>
           <select
             id="category"
-            className="form-select category-dropdown"
+            className={`form-select category-dropdown ${theme}`}
             name="category"
             value={category}
             onChange={handleCategoryChange}
             aria-describedby="category-help"
             required
-            style={{
-              backgroundColor: theme === "light" ? "#fff" : "#444",
-              color: theme === "light" ? "#000" : "#fff",
-              borderColor: theme === "light" ? "#ccc" : "#666",
-            }}
           >
-            <option value="">-- Select a Category --</option>
+            <option className="category-dropdown option" value="">
+              -- Select a Category --
+            </option>
             <option value="Food">Food</option>
             <option value="Housing">Housing</option>
             <option value="Travel">Travel</option>
@@ -167,11 +153,15 @@ function AddExpenseForm() {
             <option value="Bills">Bills</option>
             <option value="Services">Services</option>
           </select>
-          <small id="category-help" className="form-text text-muted">
+          <small id="category-help" className={`small-text ${theme}`}>
             Please specify the category for this expense.
           </small>
           {warnings.category && (
-            <small id="category-error" className="text-danger" role="alert">
+            <small
+              id="category-error"
+              className={`text-danger small-text ${theme}`}
+              role="alert"
+            >
               {warnings.category}
             </small>
           )}
