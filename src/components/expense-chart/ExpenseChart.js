@@ -1,25 +1,51 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import {
-  backgroundColor,
-  hoverBackgroundColor,
-} from "../../constants/constants";
 import { useTheme } from "../../context/ThemeContext";
+import { useExpenses } from "../../context/ExpenseContext";
 import "./expense-chart-styles.css";
 import "../styles.css";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function ExpenseSummaryChart({ data }) {
+function ExpenseSummaryChart() {
   const { theme } = useTheme();
+  const { expenseList, categories, categoryColors } = useExpenses();
+
+  const categoryData = useMemo(() => {
+    const totals = {};
+
+    categories.forEach((category) => {
+      totals[category.name] = 0;
+    });
+
+    expenseList.forEach((expense) => {
+      if (totals[expense.category] !== undefined) {
+        totals[expense.category] += expense.amount;
+      }
+    });
+
+    Object.keys(totals).forEach((key) => {
+      if (totals[key] === 0) {
+        totals[key] = 0.001;
+      }
+    });
+
+    return totals;
+  }, [expenseList, categories]);
+
   const expenseData = {
-    labels: Object.keys(data),
+    labels: Object.keys(categoryData),
     datasets: [
       {
-        data: Object.values(data),
-        backgroundColor: backgroundColor,
-        hoverBackgroundColor: hoverBackgroundColor,
+        data: Object.values(categoryData),
+        backgroundColor: Object.keys(categoryData).map(
+          (category) => categoryColors[category] || "gray"
+        ),
+        hoverBackgroundColor: Object.keys(categoryData).map(
+          (category) =>
+            `${categoryColors[category]?.slice(0, -1)}, 0.8)` || "darkgray"
+        ),
       },
     ],
   };
@@ -38,11 +64,14 @@ function ExpenseSummaryChart({ data }) {
       tooltip: {
         callbacks: {
           label: function (tooltipItem) {
-            const value = tooltipItem.raw;
-            return ` ${value} (${(
-              (value / Object.values(data).reduce((a, b) => a + b, 0)) *
-              100
-            ).toFixed(2)}%)`;
+            const value = tooltipItem.raw === 0.001 ? 0 : tooltipItem.raw;
+            const total = Object.values(categoryData).reduce(
+              (a, b) => (b === 0.001 ? a : a + b),
+              0
+            );
+            return ` ${value} (${
+              total > 0 ? ((value / total) * 100).toFixed(2) : "0.00"
+            }%)`;
           },
         },
       },
@@ -60,12 +89,16 @@ function ExpenseSummaryChart({ data }) {
       <div
         className={`d-flex justify-content-center align-items-center themed-container ${theme}`}
       >
-        <Pie
-          data={expenseData}
-          options={options}
-          role="pie chart"
-          aria-label="Pie chart showing expense distribution by category"
-        />
+        {Object.keys(categoryData).length > 0 ? (
+          <Pie
+            data={expenseData}
+            options={options}
+            role="pie chart"
+            aria-label="Pie chart showing expense distribution by category"
+          />
+        ) : (
+          <p className="text-muted">No expenses or categories to display.</p>
+        )}
       </div>
     </section>
   );

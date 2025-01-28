@@ -4,12 +4,15 @@ import App from "./App";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ThemeProvider } from "./context/ThemeContext";
+import { ExpenseProvider } from "./context/ExpenseContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
+    <ExpenseProvider>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
+    </ExpenseProvider>
   </React.StrictMode>
 );

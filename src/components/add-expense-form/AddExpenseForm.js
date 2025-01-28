@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "../../context/ThemeContext";
+import { useExpenses } from "../../context/ExpenseContext";
 import "./add-expense-form-styles.css";
 import "../styles.css";
 
-const AddExpenseForm =() => {
+const AddExpenseForm = () => {
   const { theme } = useTheme();
+  const { categories, fetchCategories, loading, addExpense } = useExpenses(); // Access addExpense from context
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
@@ -13,6 +15,12 @@ const AddExpenseForm =() => {
     amount: "",
     category: "",
   });
+
+  useEffect(() => {
+    if (categories.length === 0) {
+      fetchCategories();
+    }
+  }, [categories, fetchCategories]);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -42,33 +50,53 @@ const AddExpenseForm =() => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let formIsValid = true;
     const newWarnings = {};
-
+  
     if (name.trim() === "") {
       newWarnings.name = "Please enter a name.";
       formIsValid = false;
     }
-
+  
     if (!amount || amount <= 0) {
       newWarnings.amount = "Please enter a positive number for the amount.";
       formIsValid = false;
     }
-
+  
     if (category === "") {
       newWarnings.category = "Please select a category.";
       formIsValid = false;
     }
-
+  
     if (!formIsValid) {
       setWarnings(newWarnings);
       return;
     }
-
-    console.log("Expense added:", { name, amount, category });
+  
+    // Create expense object with a simplified date
+    const newExpense = {
+      name,
+      amount: parseFloat(amount), // Convert amount to a number
+      category,
+      date: new Date().toISOString().split("T")[0], // Extract only the date part
+    };
+  
+    try {
+      // Add expense to the database using the context function
+      await addExpense(newExpense);
+      // Clear form fields after successful submission
+      setName("");
+      setAmount("");
+      setCategory("");
+      setWarnings({ name: "", amount: "", category: "" });
+      console.log("Expense added successfully:", newExpense);
+    } catch (err) {
+      console.error("Error adding expense:", err);
+    }
   };
+  
 
   return (
     <section
@@ -142,16 +170,14 @@ const AddExpenseForm =() => {
             onChange={handleCategoryChange}
             aria-describedby="category-help"
             required
+            disabled={loading}
           >
-            <option className="category-dropdown option" value="">
-              -- Select a Category --
-            </option>
-            <option value="Food">Food</option>
-            <option value="Housing">Housing</option>
-            <option value="Travel">Travel</option>
-            <option value="Leisure">Leisure</option>
-            <option value="Bills">Bills</option>
-            <option value="Services">Services</option>
+            <option value="">-- Select a Category --</option>
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.name}>
+                {cat.name}
+              </option>
+            ))}
           </select>
           <small id="category-help" className={`small-text ${theme}`}>
             Please specify the category for this expense.
@@ -179,6 +205,6 @@ const AddExpenseForm =() => {
       </form>
     </section>
   );
-}
+};
 
 export default AddExpenseForm;

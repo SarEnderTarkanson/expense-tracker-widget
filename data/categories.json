@@ -6,7 +6,7 @@
     { "id": 4, "name": "Subscriptions" },
     { "id": 5, "name": "Childcare" },
     { "id": 6, "name": "Transportation" },
-    { "id": 7, "name": "Other" },
-    { "id": 8, "name": "Travel" }
+    { "id": 8, "name": "Travel" },
+    { "id": 7, "name": "Other" }
   ]
 }
