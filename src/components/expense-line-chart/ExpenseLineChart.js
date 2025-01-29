@@ -10,7 +10,8 @@ import {
   Legend,
 } from "chart.js";
 import { useTheme } from "../../context/ThemeContext";
-import './expense-line-chart-styles.css'
+import { useExpenses } from "../../context/ExpenseContext";
+import './expense-line-chart-styles.css';
 import "../styles.css";
 
 ChartJS.register(
@@ -22,15 +23,27 @@ ChartJS.register(
   Legend
 );
 
-const ExpenseLineChart = ({ data }) => {
+const ExpenseLineChart = () => {
   const { theme } = useTheme();
+  const { expenseList } = useExpenses();
+
+  const aggregatedData = expenseList.reduce((acc, item) => {
+    if (acc[item.date]) {
+      acc[item.date] += item.amount;
+    } else {
+      acc[item.date] = item.amount;
+    }
+    return acc;
+  }, {});
 
   const chartData = {
-    labels: data.map((item) => item.date),
+    labels: Object.keys(aggregatedData).sort((a, b) => new Date(a) - new Date(b)),
     datasets: [
       {
         label: "Expenses",
-        data: data.map((item) => item.amount),
+        data: Object.keys(aggregatedData)
+          .sort((a, b) => new Date(a) - new Date(b))
+          .map((date) => aggregatedData[date]),
         borderColor: "#4caf50",
         backgroundColor: "rgba(76, 175, 80, 0.2)",
         pointBackgroundColor: "#4caf50",

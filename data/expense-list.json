@@ -1,18 +1,39 @@
 {
   "expense_list": [
     {
-      "id": "82f929dc-35c2-4a45-a2f5-64ee3f012ba9",
-      "name": "test",
-      "amount": 1000,
-      "category": "Housing",
+      "id": "7f5d650c-4b02-45ff-9ee4-9033efc614b6",
+      "name": "test1",
+      "amount": 1200,
+      "category": "Entertainment",
+      "date": "2025-01-08"
+    },
+    {
+      "id": "96fef61e-6ab1-4344-8d54-67f0663eefe1",
+      "name": "test2",
+      "amount": 5000,
+      "category": "Childcare",
+      "date": "2025-01-20"
+    },
+    {
+      "id": "3864e28d-f4a3-4c51-972e-169f58c36325",
+      "name": "test3",
+      "amount": 2500,
+      "category": "Subscriptions",
+      "date": "2025-01-08"
+    },
+    {
+      "id": "c69b980b-9dad-4b15-8868-6772ed8543c5",
+      "name": "test4",
+      "amount": 2500,
+      "category": "Entertainment",
       "date": "2025-01-28"
     },
     {
-      "id": "b48bdd46-27a3-47cc-abd1-9b42fc79f5f3",
-      "name": "test2",
-      "amount": 2000,
-      "category": "Food",
-      "date": "2025-01-28"
+      "id": "079c2094-803b-410d-a1a8-5e9a763bb563",
+      "name": "test5",
+      "amount": 1000,
+      "category": "Subscriptions",
+      "date": "2025-01-14"
     }
   ]
 }

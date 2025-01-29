@@ -2,13 +2,13 @@ import React, { createContext, useContext, useReducer, useEffect } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
-const generateRandomColors = (count) => {
-  const colors = [];
-  for (let i = 0; i < count; i++) {
-    const color = `hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`;
-    colors.push(color);
+const hashStringToColor = (string) => {
+  let hash = 0;
+  for (let i = 0; i < string.length; i++) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
   }
-  return colors;
+  const hue = hash % 360;
+  return `hsl(${hue}, 70%, 60%)`;
 };
 
 const ExpenseContext = createContext();
@@ -30,12 +30,19 @@ const expenseReducer = (state, action) => {
     case "FETCH_EXPENSES_FAILURE":
       return { ...state, error: action.payload, loading: false };
     case "FETCH_CATEGORIES_SUCCESS":
-      const colors = generateRandomColors(action.payload.length);
-      const categoryColors = action.payload.reduce((acc, category, index) => {
-        acc[category.name] = colors[index];
+      const storedCategoryColors =
+        JSON.parse(localStorage.getItem("categoryColors")) || {};
+      const categoryColors = action.payload.reduce((acc, category) => {
+        acc[category.name] =
+          storedCategoryColors[category.name] ||
+          hashStringToColor(category.name);
         return acc;
       }, {});
+
+      localStorage.setItem("categoryColors", JSON.stringify(categoryColors));
+
       return { ...state, categories: action.payload, categoryColors };
+
     case "ADD_EXPENSE_SUCCESS":
       return { ...state, expenseList: [...state.expenseList, action.payload] };
     case "UPDATE_EXPENSE_SUCCESS":
@@ -53,8 +60,8 @@ const expenseReducer = (state, action) => {
 export const ExpenseProvider = ({ children }) => {
   const [state, dispatch] = useReducer(expenseReducer, initialState);
 
-  const expenseApiUrl = "http://localhost:3500/expense_list";
-  const categoriesApiUrl = "http://localhost:3501/categories";
+  const expenseApiUrl = "http://localhost:3501/expense_list";
+  const categoriesApiUrl = "http://localhost:3500/categories";
 
   const fetchExpenses = async () => {
     dispatch({ type: "FETCH_EXPENSES_START" });
@@ -88,7 +95,10 @@ export const ExpenseProvider = ({ children }) => {
 
   const updateExpense = async (id, updatedExpense) => {
     try {
-      const response = await axios.put(`${expenseApiUrl}/${id}`, updatedExpense);
+      const response = await axios.put(
+        `${expenseApiUrl}/${id}`,
+        updatedExpense
+      );
       dispatch({ type: "UPDATE_EXPENSE_SUCCESS", payload: response.data });
     } catch (err) {
       console.error("Error updating expense:", err.message);

@@ -1,28 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "../../context/ThemeContext";
+import { useExpenses } from "../../context/ExpenseContext";
 import "./expense-list-styles.css";
 import "../styles.css";
+import "bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css";
+import $ from "jquery";
+import "bootstrap-datepicker";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const ExpenseList = () => {
   const { theme } = useTheme();
-  const [expenses, setExpenses] = useState([
-    { name: "Groceries", category: "Food", date: "2023-01-01", amount: 50 },
-    { name: "Rent", category: "Housing", date: "2023-01-01", amount: 1200 },
-    { name: "Transport", category: "Travel", date: "2023-01-02", amount: 30 },
-    {
-      name: "Entertainment",
-      category: "Leisure",
-      date: "2023-01-03",
-      amount: 200,
-    },
-    { name: "Utilities", category: "Bills", date: "2023-01-04", amount: 150 },
-    {
-      name: "Subscriptions",
-      category: "Services",
-      date: "2023-01-05",
-      amount: 25,
-    },
-  ]);
+  const { expenseList, categories, updateExpense } = useExpenses();
 
   const [sortConfig, setSortConfig] = useState({
     key: null,
@@ -30,8 +18,40 @@ const ExpenseList = () => {
   });
   const [filterCategory, setFilterCategory] = useState("");
   const [editing, setEditing] = useState(null);
+  const [editValue, setEditValue] = useState("");
+  const [error, setError] = useState(null);
 
-  const sortedExpenses = [...expenses].sort((a, b) => {
+  useEffect(() => {
+    if (editing?.key === "date") {
+      const $datepicker = $(`#datepicker-${editing.index}`);
+      $datepicker
+        .datepicker({
+          format: "yyyy-mm-dd",
+          autoclose: true,
+          todayHighlight: true,
+        })
+        .on("changeDate", function (e) {
+          handleEditConfirm(editing.index, "date", e.format());
+        });
+      $datepicker.datepicker("show");
+    }
+
+    const handleOutsideClick = (event) => {
+      if (editing && !event.target.closest(".editable-cell")) {
+        setEditing(null);
+        setEditValue("");
+        setError(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [editing]);
+
+  const sortedExpenses = [...expenseList].sort((a, b) => {
     if (sortConfig.direction === "none") {
       return 0;
     }
@@ -62,28 +82,53 @@ const ExpenseList = () => {
 
   const getSortIcon = (key) => {
     if (sortConfig.key !== key || sortConfig.direction === "none") {
-      return "⇅";
+      return '<i class="bi bi-arrow-down-up"></i>';
     }
-    return sortConfig.direction === "ascending" ? "▲" : "▼";
+    if (key === "category") {
+      return sortConfig.direction === "ascending"
+        ? '<i class="bi bi-sort-alpha-up"></i>'
+        : '<i class="bi bi-sort-alpha-down"></i>';
+    }
+    return sortConfig.direction === "ascending"
+      ? '<i class="bi bi-sort-numeric-up"></i>'
+      : '<i class="bi bi-sort-numeric-down"></i>';
   };
 
   const handleFilterChange = (e) => {
     setFilterCategory(e.target.value);
   };
 
-  const handleEdit = (index, key, value) => {
-    const updatedExpenses = [...expenses];
-    updatedExpenses[index][key] = value;
-    setExpenses(updatedExpenses);
+  const handleEditStart = (index, key, value) => {
+    setEditing({ index, key });
+    setEditValue(value);
+    setError(null);
   };
 
-  const handleBlur = () => {
+  const handleEditConfirm = (index, key, value = null) => {
+    const finalValue = value || editValue;
+
+    if (key === "date" && !/^\d{4}-\d{2}-\d{2}$/.test(finalValue)) {
+      setError("Date must be in YYYY-MM-DD format.");
+      return;
+    }
+
+    const updatedExpense = {
+      ...filteredExpenses[index],
+      [key]: key === "amount" ? parseFloat(finalValue) : finalValue,
+    };
+    updateExpense(updatedExpense.id, updatedExpense);
     setEditing(null);
+    setEditValue("");
+    setError(null);
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e, index, key) => {
     if (e.key === "Enter") {
+      handleEditConfirm(index, key);
+    } else if (e.key === "Escape") {
       setEditing(null);
+      setEditValue("");
+      setError(null);
     }
   };
 
@@ -104,12 +149,11 @@ const ExpenseList = () => {
           onChange={handleFilterChange}
         >
           <option value="">All</option>
-          <option value="Food">Food</option>
-          <option value="Housing">Housing</option>
-          <option value="Travel">Travel</option>
-          <option value="Leisure">Leisure</option>
-          <option value="Bills">Bills</option>
-          <option value="Services">Services</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.name}>
+              {category.name}
+            </option>
+          ))}
         </select>
       </div>
       <div className={`expense-list-scroll-container ${theme}`}>
@@ -118,62 +162,91 @@ const ExpenseList = () => {
             <tr>
               <th className={`expense-list-table-header ${theme}`}>Name</th>
               <th className={`expense-list-table-header ${theme}`}>
+                Amount
                 <button
-                  className="btn btn-link p-0 d-flex align-items-center gap-1"
-                  onClick={() => handleSort("category")}
-                >
-                  Category {getSortIcon("category")}
-                </button>
-              </th>
-              <th className={`expense-list-table-header ${theme}`}>
-                <button
-                  className="btn btn-link p-0 d-flex align-items-center gap-1"
-                  onClick={() => handleSort("date")}
-                >
-                  Date {getSortIcon("date")}
-                </button>
-              </th>
-              <th className={`expense-list-table-header ${theme}`}>
-                <button
-                  className="btn btn-link p-0 d-flex align-items-center gap-1"
+                  className={`btn btn-link p-0 d-flex align-items-center gap-1 ${theme}`}
                   onClick={() => handleSort("amount")}
-                >
-                  Amount {getSortIcon("amount")}
-                </button>
+                  dangerouslySetInnerHTML={{ __html: getSortIcon("amount") }}
+                />
+              </th>
+              <th className={`expense-list-table-header ${theme}`}>
+                Category
+                <button
+                  className={`btn btn-link p-0 d-flex align-items-center gap-1 ${theme}`}
+                  onClick={() => handleSort("category")}
+                  dangerouslySetInnerHTML={{ __html: getSortIcon("category") }}
+                />
+              </th>
+              <th className={`expense-list-table-header ${theme}`}>
+                Date
+                <button
+                  className={`btn btn-link p-0 d-flex align-items-center gap-1 ${theme}`}
+                  onClick={() => handleSort("date")}
+                  dangerouslySetInnerHTML={{ __html: getSortIcon("date") }}
+                />
               </th>
             </tr>
           </thead>
           <tbody>
             {filteredExpenses.map((expense, index) => (
-              <tr key={index}>
-                {Object.keys(expense).map((key) => (
-                  <td key={key} className={`editable-cell ${theme}`}>
-                    {editing?.index === index && editing?.key === key ? (
-                      <input
-                        type={key === "amount" ? "number" : "text"}
-                        value={expense[key]}
-                        onChange={(e) => handleEdit(index, key, e.target.value)}
-                        onBlur={handleBlur}
-                        onKeyUp={handleKeyPress}
-                        autoFocus
-                      />
-                    ) : (
-                      <span
-                        onClick={() => setEditing({ index, key })}
-                        className="editable-text"
-                      >
-                        {expense[key]}
-                      </span>
-                    )}
-                  </td>
-                ))}
+              <tr key={expense.id}>
+                {Object.keys(expense)
+                  .slice(1)
+                  .map((key) => (
+                    <td key={key} className={`editable-cell ${theme}`}>
+                      {editing?.index === index && editing?.key === key ? (
+                        key === "category" ? (
+                          <select
+                            className={`form-select filter-category-select ${theme}`}
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            onKeyDown={(e) => handleKeyPress(e, index, key)}
+                            autoFocus
+                          >
+                            {categories.map((category) => (
+                              <option key={category.id} value={category.name}>
+                                {category.name}
+                              </option>
+                            ))}
+                          </select>
+                        ) : key === "date" ? (
+                          <input
+                            id={`datepicker-${index}`}
+                            type="text"
+                            className={`form-control ${theme}`}
+                            readOnly
+                            autoFocus
+                          />
+                        ) : (
+                          <input
+                            type={key === "amount" ? "number" : "text"}
+                            className={`form-control ${theme}`}
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            onKeyDown={(e) => handleKeyPress(e, index, key)}
+                            autoFocus
+                          />
+                        )
+                      ) : (
+                        <span
+                          onClick={() =>
+                            handleEditStart(index, key, expense[key])
+                          }
+                          className="editable-text"
+                        >
+                          {expense[key]}
+                        </span>
+                      )}
+                    </td>
+                  ))}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      {error && <p className="error-text text-danger mt-2">{error}</p>}
     </section>
   );
-}
+};
 
 export default ExpenseList;

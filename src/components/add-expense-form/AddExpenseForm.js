@@ -6,8 +6,8 @@ import "../styles.css";
 
 const AddExpenseForm = () => {
   const { theme } = useTheme();
-  const { categories, fetchCategories, loading, addExpense } = useExpenses(); // Access addExpense from context
-  const [name, setName] = useState("");
+  const { categories, fetchCategories, loading, addExpense } = useExpenses(); 
+    const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [warnings, setWarnings] = useState({
@@ -75,18 +75,15 @@ const AddExpenseForm = () => {
       return;
     }
   
-    // Create expense object with a simplified date
     const newExpense = {
       name,
-      amount: parseFloat(amount), // Convert amount to a number
+      amount: parseFloat(amount),
       category,
-      date: new Date().toISOString().split("T")[0], // Extract only the date part
+      date: new Date().toISOString().split("T")[0],
     };
   
     try {
-      // Add expense to the database using the context function
       await addExpense(newExpense);
-      // Clear form fields after successful submission
       setName("");
       setAmount("");
       setCategory("");
@@ -138,15 +135,12 @@ const AddExpenseForm = () => {
             name="amount"
             value={amount}
             onChange={handleAmountChange}
-            placeholder="Enter amount"
+            placeholder="Enter amount (positive number)"
             min="1"
             aria-describedby="amount-help amount-error"
             aria-required="true"
             required
           />
-          <small id="amount-help" className={`small-text ${theme}`}>
-            Enter a positive number greater than zero.
-          </small>
           {warnings.amount && (
             <small
               id="amount-error"
@@ -179,9 +173,6 @@ const AddExpenseForm = () => {
               </option>
             ))}
           </select>
-          <small id="category-help" className={`small-text ${theme}`}>
-            Please specify the category for this expense.
-          </small>
           {warnings.category && (
             <small
               id="category-error"
