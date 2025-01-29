@@ -6,7 +6,10 @@
     { "id": 4, "name": "Subscriptions" },
     { "id": 5, "name": "Childcare" },
     { "id": 6, "name": "Transportation" },
-    { "id": 8, "name": "Travel" },
-    { "id": 7, "name": "Other" }
+    { "id": 7, "name": "Travel" },
+    { "id": 8, "name": "Other" },
+    { "id": 9, "name": "Health" },
+    { "id": 10, "name": "Sports Club" },
+    { "id": 11, "name": "Union" }
   ]
 }

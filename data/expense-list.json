@@ -1,39 +1,39 @@
 {
   "expense_list": [
     {
-      "id": "7f5d650c-4b02-45ff-9ee4-9033efc614b6",
-      "name": "test1",
-      "amount": 1200,
-      "category": "Entertainment",
-      "date": "2025-01-08"
-    },
-    {
-      "id": "96fef61e-6ab1-4344-8d54-67f0663eefe1",
-      "name": "test2",
-      "amount": 5000,
-      "category": "Childcare",
+      "id": "c5496b1b-cbd6-4825-a507-6e6accd41262",
+      "name": "test",
+      "amount": 1000,
+      "category": "Subscriptions",
       "date": "2025-01-20"
     },
     {
-      "id": "3864e28d-f4a3-4c51-972e-169f58c36325",
+      "id": "a1cd176a-3d92-4e4b-9372-efbc246bcda0",
+      "name": "test2",
+      "amount": 1500,
+      "category": "Food",
+      "date": "2025-01-29"
+    },
+    {
+      "id": "7beb21a0-5fd9-448d-8453-2455889f5926",
       "name": "test3",
-      "amount": 2500,
-      "category": "Subscriptions",
+      "amount": 1350,
+      "category": "Childcare",
       "date": "2025-01-08"
     },
     {
-      "id": "c69b980b-9dad-4b15-8868-6772ed8543c5",
+      "id": "25548a64-7f74-4f0a-a624-475d7deaae72",
       "name": "test4",
-      "amount": 2500,
+      "amount": 1100,
       "category": "Entertainment",
-      "date": "2025-01-28"
+      "date": "2025-01-29"
     },
     {
-      "id": "079c2094-803b-410d-a1a8-5e9a763bb563",
-      "name": "test5",
-      "amount": 1000,
-      "category": "Subscriptions",
-      "date": "2025-01-14"
+      "id": "d2ff6668-d9c4-439f-af25-8e792b302d96",
+      "name": "650",
+      "amount": 1400,
+      "category": "Union",
+      "date": "2025-01-29"
     }
   ]
 }

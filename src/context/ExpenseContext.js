@@ -2,14 +2,45 @@ import React, { createContext, useContext, useReducer, useEffect } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
-const hashStringToColor = (string) => {
-  let hash = 0;
-  for (let i = 0; i < string.length; i++) {
-    hash = string.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const hue = hash % 360;
-  return `hsl(${hue}, 70%, 60%)`;
+const generateDistinctColors = (index) => {
+  const predefinedHues = [
+    0,
+    30,
+    60,
+    120,
+    180,
+    210,
+    270,
+    300, // Ensuring distinct colors
+    15,
+    45,
+    75,
+    135,
+    195,
+    225,
+    285,
+    330, // Extra distinct variations
+  ];
+  const hue = predefinedHues[index % predefinedHues.length];
+  return `hsl(${hue}, 80%, 50%)`; // Higher contrast and saturation
 };
+
+const assignCategoryColors = (categories) => {
+  const storedCategoryColors =
+    JSON.parse(localStorage.getItem("categoryColors")) || {};
+
+  const categoryColors = categories.reduce((acc, category, index) => {
+    acc[category.name] =
+      storedCategoryColors[category.name] || generateDistinctColors(index);
+    return acc;
+  }, {});
+
+  localStorage.setItem("categoryColors", JSON.stringify(categoryColors));
+
+  return categoryColors;
+};
+
+// Inside the reducer:
 
 const ExpenseContext = createContext();
 
@@ -30,18 +61,11 @@ const expenseReducer = (state, action) => {
     case "FETCH_EXPENSES_FAILURE":
       return { ...state, error: action.payload, loading: false };
     case "FETCH_CATEGORIES_SUCCESS":
-      const storedCategoryColors =
-        JSON.parse(localStorage.getItem("categoryColors")) || {};
-      const categoryColors = action.payload.reduce((acc, category) => {
-        acc[category.name] =
-          storedCategoryColors[category.name] ||
-          hashStringToColor(category.name);
-        return acc;
-      }, {});
-
-      localStorage.setItem("categoryColors", JSON.stringify(categoryColors));
-
-      return { ...state, categories: action.payload, categoryColors };
+      return {
+        ...state,
+        categories: action.payload,
+        categoryColors: assignCategoryColors(action.payload),
+      };
 
     case "ADD_EXPENSE_SUCCESS":
       return { ...state, expenseList: [...state.expenseList, action.payload] };
