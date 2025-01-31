@@ -11,7 +11,7 @@ const generateDistinctColors = (index) => {
     180,
     210,
     270,
-    300, // Ensuring distinct colors
+    300,
     15,
     45,
     75,
@@ -19,10 +19,10 @@ const generateDistinctColors = (index) => {
     195,
     225,
     285,
-    330, // Extra distinct variations
+    330,
   ];
   const hue = predefinedHues[index % predefinedHues.length];
-  return `hsl(${hue}, 80%, 50%)`; // Higher contrast and saturation
+  return `hsl(${hue}, 80%, 50%)`;
 };
 
 const assignCategoryColors = (categories) => {
@@ -39,8 +39,6 @@ const assignCategoryColors = (categories) => {
 
   return categoryColors;
 };
-
-// Inside the reducer:
 
 const ExpenseContext = createContext();
 

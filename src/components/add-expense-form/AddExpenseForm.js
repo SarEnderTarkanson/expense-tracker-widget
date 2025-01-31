@@ -10,6 +10,7 @@ const AddExpenseForm = () => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
+  const [alert, setAlert] = useState(null);
   const [warnings, setWarnings] = useState({
     name: "",
     amount: "",
@@ -25,72 +26,66 @@ const AddExpenseForm = () => {
   const handleNameChange = (e) => {
     const value = e.target.value;
     setName(value);
-
     const isValidName = /[a-zA-Z]/.test(value) && !/^\d+(\.\d+)?$/.test(value);
 
-    if (isValidName) {
-      setWarnings((prev) => ({ ...prev, name: "" }));
-    } else {
-      setWarnings((prev) => ({
-        ...prev,
-        name: "Expense name must include letters and cannot be just a number.",
-      }));
-    }
+    setWarnings((prev) => ({
+      ...prev,
+      name: isValidName
+        ? ""
+        : "Expense name must include letters and cannot be just a number.",
+    }));
   };
 
   const handleAmountChange = (e) => {
     const value = e.target.value.trim();
-  
-    if (value === "") {
-      setAmount("");
-      setWarnings((prev) => ({
-        ...prev,
-        amount: "Amount is required.",
-      }));
-      return;
-    }
-  
-    if (!/^\d+(\.\d+)?$/.test(value) || Number(value) <= 0) {
-      setWarnings((prev) => ({
-        ...prev,
-        amount: "Please enter a valid positive number.",
-      }));
-      return;
-    }
-  
     setAmount(value);
-    setWarnings((prev) => ({ ...prev, amount: "" }));
+
+    setWarnings((prev) => ({
+      ...prev,
+      amount:
+        value === "" || !/^\d+(\.\d+)?$/.test(value) || Number(value) <= 0
+          ? "Please enter a valid positive number."
+          : "",
+    }));
   };
-  
+
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
-    if (e.target.value !== "") {
-      setWarnings((prev) => ({ ...prev, category: "" }));
-    }
+    setWarnings((prev) => ({
+      ...prev,
+      category: e.target.value ? "" : "Please select a category.",
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let formIsValid = true;
-    const newWarnings = {};
 
-    if (name.trim() === "") {
-      newWarnings.name = "Please enter a name.";
-      formIsValid = false;
-    }
+    const isValidName = /[a-zA-Z]/.test(name) && !/^\d+(\.\d+)?$/.test(name);
 
-    if (!amount || amount <= 0) {
-      newWarnings.amount = "Please enter a positive number for the amount.";
-      formIsValid = false;
-    }
+    const newWarnings = {
+      name:
+        name.trim() === ""
+          ? "Please enter a name."
+          : !isValidName
+          ? "Expense name must include letters and cannot be just a number."
+          : "",
+      amount:
+        !amount || Number(amount) <= 0
+          ? "Please enter a positive number for the amount."
+          : "",
+      category: category === "" ? "Please select a category." : "",
+    };
 
-    if (category === "") {
-      newWarnings.category = "Please select a category.";
-      formIsValid = false;
-    }
+    setWarnings(newWarnings);
 
+    const formIsValid = Object.values(newWarnings).every(
+      (warning) => warning === ""
+    );
     if (!formIsValid) {
-      setWarnings(newWarnings);
+      setAlert({
+        type: "danger",
+        message: "Please fix the errors before submitting.",
+      });
       return;
     }
 
@@ -107,9 +102,12 @@ const AddExpenseForm = () => {
       setAmount("");
       setCategory("");
       setWarnings({ name: "", amount: "", category: "" });
-      console.log("Expense added successfully:", newExpense);
+      setAlert({ type: "success", message: "Expense added successfully!" });
     } catch (err) {
-      console.error("Error adding expense:", err);
+      setAlert({
+        type: "danger",
+        message: "Error adding expense. Please try again.",
+      });
     }
   };
 
@@ -119,6 +117,11 @@ const AddExpenseForm = () => {
       aria-labelledby="add-expense-form-title"
     >
       <h5 id="add-expense-form-title">Add Expense</h5>
+      {alert && (
+        <div className={`alert alert-${alert.type} fade show`} role="alert">
+          {alert.message}
+        </div>
+      )}
       <form className="d-flex flex-column" onSubmit={handleSubmit} noValidate>
         <div className="mb-4">
           <label htmlFor="name" className="form-label">
@@ -128,17 +131,13 @@ const AddExpenseForm = () => {
             type="text"
             className={`form-control input-field ${theme}`}
             id="name"
-            name="name"
             value={name}
             onChange={handleNameChange}
             placeholder="Enter expense name"
-            aria-required="true"
             required
           />
           {warnings.name && (
-            <small id="name-error" className="text-danger" role="alert">
-              {warnings.name}
-            </small>
+            <small className="text-danger">{warnings.name}</small>
           )}
         </div>
 
@@ -150,23 +149,13 @@ const AddExpenseForm = () => {
             type="text"
             className={`form-control input-field ${theme}`}
             id="amount"
-            name="amount"
             value={amount}
             onChange={handleAmountChange}
-            placeholder="Enter amount (positive number)"
-            aria-describedby="amount-help amount-error"
-            aria-required="true"
+            placeholder="Enter amount"
             required
           />
-
           {warnings.amount && (
-            <small
-              id="amount-error"
-              className={`text-danger small-text ${theme}`}
-              role="alert"
-            >
-              {warnings.amount}
-            </small>
+            <small className="text-danger">{warnings.amount}</small>
           )}
         </div>
 
@@ -177,10 +166,8 @@ const AddExpenseForm = () => {
           <select
             id="category"
             className={`form-select category-dropdown ${theme}`}
-            name="category"
             value={category}
             onChange={handleCategoryChange}
-            aria-describedby="category-help"
             required
             disabled={loading}
           >
@@ -192,22 +179,12 @@ const AddExpenseForm = () => {
             ))}
           </select>
           {warnings.category && (
-            <small
-              id="category-error"
-              className={`text-danger small-text ${theme}`}
-              role="alert"
-            >
-              {warnings.category}
-            </small>
+            <small className="text-danger">{warnings.category}</small>
           )}
         </div>
 
         <div className="d-flex flex-column justify-content-end align-items-center p-3 h-100">
-          <button
-            type="submit"
-            className="btn btn-primary w-50"
-            aria-label="Add expense"
-          >
+          <button type="submit" className="btn btn-primary w-50">
             Add
           </button>
         </div>
