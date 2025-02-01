@@ -3,7 +3,6 @@ import AddExpenseForm from "./components/add-expense-form/AddExpenseForm";
 import ExpenseList from "./components/expense-list/ExpenseList";
 import ExpenseChart from "./components/expense-chart/ExpenseChart";
 import ExpenseLineChart from "./components/expense-line-chart/ExpenseLineChart";
-import { data, mockData } from "./constants/constants";
 import { useTheme } from "./context/ThemeContext";
 import "./App.css";
 
@@ -28,10 +27,10 @@ function App() {
               <ExpenseList />
             </div>
             <div className="col-md-6">
-              <ExpenseChart data={data} />
+              <ExpenseChart />
             </div>
             <div className="col-md-6">
-              <ExpenseLineChart data={mockData} />
+              <ExpenseLineChart />
             </div>
           </div>
         </div>

@@ -1,44 +1,8 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-
-const generateDistinctColors = (index) => {
-  const predefinedHues = [
-    0,
-    30,
-    60,
-    120,
-    180,
-    210,
-    270,
-    300,
-    15,
-    45,
-    75,
-    135,
-    195,
-    225,
-    285,
-    330,
-  ];
-  const hue = predefinedHues[index % predefinedHues.length];
-  return `hsl(${hue}, 80%, 50%)`;
-};
-
-const assignCategoryColors = (categories) => {
-  const storedCategoryColors =
-    JSON.parse(localStorage.getItem("categoryColors")) || {};
-
-  const categoryColors = categories.reduce((acc, category, index) => {
-    acc[category.name] =
-      storedCategoryColors[category.name] || generateDistinctColors(index);
-    return acc;
-  }, {});
-
-  localStorage.setItem("categoryColors", JSON.stringify(categoryColors));
-
-  return categoryColors;
-};
+import { expenseApiUrl, categoriesApiUrl } from "../constants/constants";
+import { assignCategoryColors } from "../utils/utils";
 
 const ExpenseContext = createContext();
 
@@ -81,9 +45,6 @@ const expenseReducer = (state, action) => {
 
 export const ExpenseProvider = ({ children }) => {
   const [state, dispatch] = useReducer(expenseReducer, initialState);
-
-  const expenseApiUrl = "http://localhost:3501/expense_list";
-  const categoriesApiUrl = "http://localhost:3500/categories";
 
   const fetchExpenses = async () => {
     dispatch({ type: "FETCH_EXPENSES_START" });
