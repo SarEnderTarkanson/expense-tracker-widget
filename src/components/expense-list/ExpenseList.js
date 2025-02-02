@@ -33,6 +33,11 @@ const ExpenseList = () => {
           autoclose: true,
           todayHighlight: true,
           orientation: "bottom",
+          defaultViewDate: { 
+            year: new Date().getFullYear(), 
+            month: new Date().getMonth(), 
+            day: new Date().getDate() 
+          },
         })
         .on("changeDate", (e) => {
           handleEditConfirm(editing.index, "date", e.format());
@@ -40,14 +45,19 @@ const ExpenseList = () => {
         .on("show", () => {
           $(".datepicker").css("cursor", "pointer");
         });
-
+  
       $datepicker.datepicker("show");
-
-      if (editValue) {
+  
+      if (!editValue) {
+        $datepicker.datepicker("setDate", new Date());
+        $datepicker.datepicker("update");
+      } else {
         $datepicker.datepicker("setDate", editValue);
+        $datepicker.datepicker("update");
       }
     }
-  }, [editing]);
+  }, [editing, editValue, handleEditConfirm]);
+  
 
   const getSortIcon = (key) => {
     if (sortConfig.key !== key || sortConfig.direction === "none") {
@@ -142,7 +152,7 @@ const ExpenseList = () => {
                         />
                       ) : (
                         <input
-                          type={key === "amount" ? "number" : "text"}
+                          type={key === "amount" ? "text" : "text"}
                           className={`form-control ${theme}`}
                           value={editValue}
                           onChange={(e) =>

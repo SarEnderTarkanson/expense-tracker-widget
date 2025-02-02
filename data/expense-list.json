@@ -1,25 +1,18 @@
 {
   "expense-list": [
     {
-      "id": "c4f41c20-6eb9-4e2d-92c7-e4cb16454e36",
+      "id": "afb359bd-1a59-4470-8757-c088156172c1",
       "name": "test",
       "amount": 1000,
       "category": "Housing",
-      "date": "2024-10-31"
+      "date": "2025-02-02"
     },
     {
-      "id": "31e9ea77-1a7d-48c0-8670-1b3cce91f7ca",
+      "id": "6b70f81e-e40b-4edc-9109-8a7d2e5f95ec",
       "name": "test2",
-      "amount": 2000,
-      "category": "Food",
-      "date": "2024-12-31"
-    },
-    {
-      "id": "3f531d84-f8df-4868-91db-4fc89181e0fe",
-      "name": "test3",
-      "amount": 1500,
-      "category": "Childcare",
-      "date": "2025-01-31"
+      "amount": 500,
+      "category": "Housing",
+      "date": "2025-02-02"
     }
   ]
 }

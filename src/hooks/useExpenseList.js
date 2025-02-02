@@ -49,10 +49,35 @@ const useExpenseList = () => {
       setError("Date must be in YYYY-MM-DD format.");
       return;
     }
+
+    if (key === "name") {
+      if (!finalValue.trim()) {
+        setError("Name cannot be empty.");
+        return;
+      }
+      if (!/[a-zA-Z]/.test(finalValue)) {
+        setError("Name must contain at least one alphabetic character.");
+        return;
+      }
+    }
+
+    if (key === "amount") {
+            const trimmedValue = finalValue.trim();
+            if (
+        trimmedValue === "" ||
+        !/^\d+(\.\d+)?$/.test(trimmedValue) ||
+        Number(trimmedValue) <= 0
+      ) {
+        setError("Please enter a valid positive number.");
+        return;
+      }
+    }
+
     const updatedExpense = {
       ...filteredExpenses[index],
       [key]: key === "amount" ? parseFloat(finalValue) : finalValue,
     };
+
     updateExpense(updatedExpense.id, updatedExpense);
     setEditing(null);
     setEditValue("");
