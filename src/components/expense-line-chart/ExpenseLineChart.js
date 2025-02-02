@@ -10,8 +10,8 @@ import {
   Legend,
 } from "chart.js";
 import { useTheme } from "../../context/ThemeContext";
-import { useExpenses } from "../../context/ExpenseContext";
-import './expense-line-chart-styles.css';
+import useExpenseLineChart from "../../hooks/useExpenseLineChart";
+import "./expense-line-chart-styles.css";
 import "../styles.css";
 
 ChartJS.register(
@@ -25,82 +25,7 @@ ChartJS.register(
 
 const ExpenseLineChart = () => {
   const { theme } = useTheme();
-  const { expenseList } = useExpenses();
-
-  const aggregatedData = expenseList.reduce((acc, item) => {
-    if (acc[item.date]) {
-      acc[item.date] += item.amount;
-    } else {
-      acc[item.date] = item.amount;
-    }
-    return acc;
-  }, {});
-
-  const chartData = {
-    labels: Object.keys(aggregatedData).sort((a, b) => new Date(a) - new Date(b)),
-    datasets: [
-      {
-        label: "Expenses",
-        data: Object.keys(aggregatedData)
-          .sort((a, b) => new Date(a) - new Date(b))
-          .map((date) => aggregatedData[date]),
-        borderColor: "#4caf50",
-        backgroundColor: "rgba(76, 175, 80, 0.2)",
-        pointBackgroundColor: "#4caf50",
-        tension: 0.4,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        labels: {
-          color: theme === "light" ? "#333" : "#fff",
-        },
-      },
-      tooltip: {
-        callbacks: {
-          label: (context) => `Amount: $${context.raw}`,
-        },
-        titleColor: theme === "light" ? "#333" : "#fff",
-        bodyColor: theme === "light" ? "#333" : "#fff",
-        backgroundColor: theme === "light" ? "#fff" : "#333",
-        borderColor: theme === "light" ? "#ccc" : "#666",
-        borderWidth: 1,
-      },
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: "Date",
-          color: theme === "light" ? "#333" : "#fff",
-        },
-        ticks: {
-          color: theme === "light" ? "#333" : "#fff",
-        },
-        grid: {
-          color: theme === "light" ? "#e0e0e0" : "#555",
-        },
-      },
-      y: {
-        title: {
-          display: true,
-          text: "Amount ($)",
-          color: theme === "light" ? "#333" : "#fff",
-        },
-        ticks: {
-          color: theme === "light" ? "#333" : "#fff",
-        },
-        grid: {
-          color: theme === "light" ? "#e0e0e0" : "#555",
-        },
-        beginAtZero: true,
-      },
-    },
-  };
+  const { chartData, options } = useExpenseLineChart();
 
   return (
     <section
