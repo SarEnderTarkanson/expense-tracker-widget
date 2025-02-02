@@ -4,7 +4,10 @@ import { useExpenses } from "../context/ExpenseContext";
 const useExpenseList = () => {
   const { expenseList, categories, updateExpense } = useExpenses();
 
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: "none" });
+  const [sortConfig, setSortConfig] = useState({
+    key: null,
+    direction: "none",
+  });
   const [filterCategory, setFilterCategory] = useState("");
   const [editing, setEditing] = useState(null);
   const [editValue, setEditValue] = useState("");
@@ -26,11 +29,22 @@ const useExpenseList = () => {
     : sortedExpenses;
 
   const handleSort = (key) => {
-    let direction = "ascending";
-    if (sortConfig.key === key) {
-      direction = sortConfig.direction === "ascending" ? "descending" : "none";
-    }
-    setSortConfig({ key, direction });
+    setSortConfig((prevSort) => {
+      let newDirection;
+
+      if (prevSort.key === key) {
+        newDirection =
+          prevSort.direction === "ascending"
+            ? "descending"
+            : prevSort.direction === "descending"
+            ? "none"
+            : "ascending";
+      } else {
+        newDirection = "ascending";
+      }
+
+      return { key, direction: newDirection };
+    });
   };
 
   const handleFilterChange = (e) => {
@@ -62,8 +76,8 @@ const useExpenseList = () => {
     }
 
     if (key === "amount") {
-            const trimmedValue = finalValue.trim();
-            if (
+      const trimmedValue = finalValue.trim();
+      if (
         trimmedValue === "" ||
         !/^\d+(\.\d+)?$/.test(trimmedValue) ||
         Number(trimmedValue) <= 0

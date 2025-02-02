@@ -76,7 +76,7 @@ const useExpenseLineChart = () => {
         y: {
           title: {
             display: true,
-            text: "Amount ($)",
+            text: "Amount (NOK)",
             color: theme === "light" ? "#333" : "#fff",
           },
           ticks: {

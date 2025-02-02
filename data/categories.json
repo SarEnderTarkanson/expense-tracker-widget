@@ -1,15 +1,15 @@
 {
   "categories": [
-    { "id": 1, "name": "Housing" },
-    { "id": 2, "name": "Food" },
-    { "id": 3, "name": "Entertainment" },
-    { "id": 4, "name": "Subscriptions" },
-    { "id": 5, "name": "Childcare" },
-    { "id": 6, "name": "Transportation" },
-    { "id": 7, "name": "Travel" },
-    { "id": 8, "name": "Other" },
-    { "id": 9, "name": "Health" },
-    { "id": 10, "name": "Sports Club" },
+    { "id": 1, "name": "Childcare" },
+    { "id": 2, "name": "Entertainment" },
+    { "id": 3, "name": "Food" },
+    { "id": 4, "name": "Health" },
+    { "id": 5, "name": "Housing" },
+    { "id": 6, "name": "Other" },
+    { "id": 7, "name": "Sports Club" },
+    { "id": 8, "name": "Subscriptions" },
+    { "id": 9, "name": "Transportation" },
+    { "id": 10, "name": "Travel" },
     { "id": 11, "name": "Union" }
   ]
 }

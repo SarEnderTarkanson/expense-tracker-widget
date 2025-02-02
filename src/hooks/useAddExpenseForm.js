@@ -75,7 +75,10 @@ const useAddExpenseForm = () => {
     setWarnings(newWarnings);
 
     if (Object.values(newWarnings).some((warning) => warning !== "")) {
-      setAlert({ type: "danger", message: "Please fix the errors before submitting." });
+      setAlert({
+        type: "danger",
+        message: "Please fix the errors before submitting.",
+      });
       return;
     }
 
@@ -94,8 +97,15 @@ const useAddExpenseForm = () => {
       setWarnings({ name: "", amount: "", category: "" });
       setAlert({ type: "success", message: "Expense added successfully!" });
     } catch (err) {
-      setAlert({ type: "danger", message: "Error adding expense. Please try again." });
+      setAlert({
+        type: "danger",
+        message: "Error adding expense. Please try again.",
+      });
     }
+  };
+
+  const clearAlert = () => {
+    setAlert(null);
   };
 
   return {
@@ -110,6 +120,7 @@ const useAddExpenseForm = () => {
     handleAmountChange,
     handleCategoryChange,
     handleSubmit,
+    clearAlert,
   };
 };
 

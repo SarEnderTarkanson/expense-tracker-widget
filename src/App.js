@@ -6,18 +6,18 @@ import ExpenseLineChart from "./components/expense-line-chart/ExpenseLineChart";
 import { useTheme } from "./context/ThemeContext";
 import "./App.css";
 
-function App() {
+const App = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
     <>
-      <header className={`header ${theme}`}>
+      <header className={`header ${theme}`} role="banner">
         <h1 id="app-title">Expense Tracker</h1>
         <button className={`theme-toggle-btn ${theme}`} onClick={toggleTheme}>
           {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
         </button>
       </header>
-      <main className="container mt-4" role="main">
+      <main className="container mt-4" role="main" aria-labelledby="app-title">
         <div className="container mt-4">
           <div className="row g-4">
             <div className="col-md-6">
@@ -37,6 +37,6 @@ function App() {
       </main>
     </>
   );
-}
+};
 
 export default App;

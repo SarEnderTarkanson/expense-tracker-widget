@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import useExpenseList from "../../hooks/useExpenseList";
 import $ from "jquery";
@@ -24,6 +24,8 @@ const ExpenseList = () => {
     handleKeyPress,
   } = useExpenseList();
 
+  const editFieldRef = useRef(null);
+
   useEffect(() => {
     if (editing?.key === "date") {
       const $datepicker = $(`#datepicker-${editing.index}`);
@@ -33,10 +35,10 @@ const ExpenseList = () => {
           autoclose: true,
           todayHighlight: true,
           orientation: "bottom",
-          defaultViewDate: { 
-            year: new Date().getFullYear(), 
-            month: new Date().getMonth(), 
-            day: new Date().getDate() 
+          defaultViewDate: {
+            year: new Date().getFullYear(),
+            month: new Date().getMonth(),
+            day: new Date().getDate(),
           },
         })
         .on("changeDate", (e) => {
@@ -45,34 +47,52 @@ const ExpenseList = () => {
         .on("show", () => {
           $(".datepicker").css("cursor", "pointer");
         });
-  
+
       $datepicker.datepicker("show");
-  
+
       if (!editValue) {
         $datepicker.datepicker("setDate", new Date());
-        $datepicker.datepicker("update");
       } else {
         $datepicker.datepicker("setDate", editValue);
-        $datepicker.datepicker("update");
       }
     }
+
+    if (editing) {
+      editFieldRef.current?.focus();
+    }
   }, [editing, editValue, handleEditConfirm]);
-  
 
   const getSortIcon = (key) => {
     if (sortConfig.key !== key || sortConfig.direction === "none") {
-      return '<i class="bi bi-arrow-down-up"></i>';
+      return <i className="bi bi-arrow-down-up" aria-hidden="true"></i>;
     }
-    return sortConfig.direction === "ascending"
-      ? '<i class="bi bi-sort-numeric-up"></i>'
-      : '<i class="bi bi-sort-numeric-down"></i>';
+
+    const isAlphaSort = key === "name" || key === "category";
+
+    return sortConfig.direction === "ascending" ? (
+      <i
+        className={`bi ${
+          isAlphaSort ? "bi-sort-alpha-up" : "bi-sort-numeric-up"
+        }`}
+        aria-hidden="true"
+      ></i>
+    ) : (
+      <i
+        className={`bi ${
+          isAlphaSort ? "bi-sort-alpha-down" : "bi-sort-numeric-down"
+        }`}
+        aria-hidden="true"
+      ></i>
+    );
   };
 
   return (
     <section
       className={`p-4 border rounded equal-height d-flex flex-column expense-list-section ${theme}`}
+      aria-labelledby="expense-list-title"
     >
-      <h5>Expense List</h5>
+      <h5 id="expense-list-title">Expense List</h5>
+
       <div className="mb-3">
         <label htmlFor="filter-category">Filter by Category:</label>
         <select
@@ -80,6 +100,7 @@ const ExpenseList = () => {
           className={`form-select filter-category-select ${theme}`}
           value={filterCategory}
           onChange={handleFilterChange}
+          aria-label="Filter expenses by category"
         >
           <option value="">All</option>
           {categories.map((category) => (
@@ -89,38 +110,26 @@ const ExpenseList = () => {
           ))}
         </select>
       </div>
-      <div className={`expense-list-scroll-container ${theme}`}>
+
+      <div className={`expense-list-scroll-container ${theme}`} role="table">
         <table className="table">
           <thead>
             <tr>
-              <th className={`expense-list-table-header ${theme}`}>Name</th>
-              <th className={`expense-list-table-header ${theme}`}>
-                Amount
-                <button
-                  className={`btn btn-link p-0 d-flex align-items-center gap-1 ${theme}`}
-                  onClick={() => handleSort("amount")}
-                  dangerouslySetInnerHTML={{ __html: getSortIcon("amount") }}
-                />
-              </th>
-              <th className={`expense-list-table-header ${theme}`}>
-                Category
-                <button
-                  className={`btn btn-link p-0 d-flex align-items-center gap-1 ${theme}`}
-                  onClick={() => handleSort("category")}
-                  dangerouslySetInnerHTML={{ __html: getSortIcon("category") }}
-                />
-              </th>
-              <th className={`expense-list-table-header ${theme}`}>
-                Date
-                <button
-                  className={`btn btn-link p-0 d-flex align-items-center gap-1 ${theme}`}
-                  onClick={() => handleSort("date")}
-                  dangerouslySetInnerHTML={{ __html: getSortIcon("date") }}
-                />
-              </th>
+              {["name", "amount", "category", "date"].map((key) => (
+                <th key={key} className={`expense-list-table-header ${theme}`}>
+                  <button
+                    className={`btn btn-link p-0 d-flex align-items-center gap-1 ${theme}`}
+                    onClick={() => handleSort(key)}
+                    aria-label={`Sort by ${key}`}
+                  >
+                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                    {getSortIcon(key)}
+                  </button>
+                </th>
+              ))}
             </tr>
           </thead>
-          <tbody>
+          <tbody aria-live="polite">
             {sortedExpenses.map((expense, index) => (
               <tr key={expense.id}>
                 {["name", "amount", "category", "date"].map((key) => (
@@ -128,6 +137,7 @@ const ExpenseList = () => {
                     {editing?.index === index && editing?.key === key ? (
                       key === "category" ? (
                         <select
+                          ref={editFieldRef}
                           className={`form-select filter-category-select ${theme}`}
                           value={editValue}
                           onChange={(e) =>
@@ -148,11 +158,13 @@ const ExpenseList = () => {
                           type="text"
                           className={`form-control ${theme}`}
                           readOnly
+                          ref={editFieldRef}
                           autoFocus
                         />
                       ) : (
                         <input
-                          type={key === "amount" ? "text" : "text"}
+                          ref={editFieldRef}
+                          type={key === "amount" ? "number" : "text"}
                           className={`form-control ${theme}`}
                           value={editValue}
                           onChange={(e) =>
@@ -160,6 +172,7 @@ const ExpenseList = () => {
                           }
                           onKeyDown={(e) => handleKeyPress(e, index, key)}
                           autoFocus
+                          aria-label={`Edit ${key}`}
                         />
                       )
                     ) : (
@@ -168,6 +181,9 @@ const ExpenseList = () => {
                         onClick={() =>
                           handleEditStart(index, key, expense[key])
                         }
+                        tabIndex="0"
+                        role="button"
+                        aria-label={`Edit ${key}: ${expense[key]}`}
                       >
                         {expense[key]}
                       </span>
@@ -179,7 +195,12 @@ const ExpenseList = () => {
           </tbody>
         </table>
       </div>
-      {error && <p className="error-text text-danger mt-2">{error}</p>}
+
+      {error && (
+        <p className="error-text text-danger mt-2" role="alert">
+          {error}
+        </p>
+      )}
     </section>
   );
 };

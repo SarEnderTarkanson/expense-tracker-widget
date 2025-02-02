@@ -1,17 +1,52 @@
 {
   "expense-list": [
     {
-      "id": "afb359bd-1a59-4470-8757-c088156172c1",
-      "name": "test",
-      "amount": 2500,
+      "id": "16d5e49a-fa55-4161-ac2c-bdbdb607759e",
+      "name": "rent",
+      "amount": 1000,
       "category": "Housing",
-      "date": "2025-01-01"
+      "date": "2025-01-07"
     },
     {
-      "id": "6b70f81e-e40b-4edc-9109-8a7d2e5f95ec",
-      "name": "test2",
-      "amount": 500,
+      "id": "83482066-e5c8-4ac4-bd4d-7b5237291c98",
+      "name": "banana",
+      "amount": 1250,
+      "category": "Food",
+      "date": "2025-01-26"
+    },
+    {
+      "id": "40d46793-bf66-42b8-8776-32c3344fcdf0",
+      "name": "barnehage",
+      "amount": 1000,
+      "category": "Childcare",
+      "date": "2025-01-29"
+    },
+    {
+      "id": "3550a1f8-a35d-4e68-9f5d-4e5c366efb08",
+      "name": "hytta rent",
+      "amount": 1000,
       "category": "Housing",
+      "date": "2024-09-30"
+    },
+    {
+      "id": "4048c792-4cf6-4b35-8c64-c36dfd3e8129",
+      "name": "plane ticket",
+      "amount": 375,
+      "category": "Transportation",
+      "date": "2025-02-02"
+    },
+    {
+      "id": "1ab4d744-5f63-4843-8fcd-75f55df33f43",
+      "name": "test",
+      "amount": 2500,
+      "category": "Other",
+      "date": "2025-02-02"
+    },
+    {
+      "id": "0fca0f34-3374-4df8-8f22-52e0891a8b12",
+      "name": "test19",
+      "amount": 111,
+      "category": "Sports Club",
       "date": "2025-02-02"
     }
   ]
