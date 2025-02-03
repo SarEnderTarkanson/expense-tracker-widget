@@ -74,7 +74,7 @@ The application is built with as clean and simple as possible UI. Advanced and f
 
 User interactions involving adding and updating an expense is interactive throughout the application both in the client application and in the mock API endpoints (please observe the expense-list.json file after adding or updating an expense, data in the json file will be changed along with the UI in the client application)
 
-Additionally, any chnage in the data which is the result of the user interaction is reflected in the UI instantly (Please observe adding and updating any value will immediately be reflected in the charts and expense list)
+Additionally, any change in the data which is the result of the user interaction is reflected in the UI instantly (Please observe that adding and updating any value will immediately be reflected in the charts and expense list)
 
 ## Challenges Faced:
 
