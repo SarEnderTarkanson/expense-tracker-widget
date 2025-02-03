@@ -40,7 +40,7 @@ While using the client application, please do not close these two command prompt
 
 yarn start
 
-(in case of using npm as the package manager, please replace the word "yarn" with "npm" in the command above -> npm run)
+(in case of using npm as the package manager, please replace the word "yarn" with "npm" in the command above -> npm start)
 
 This will start the client application.
 
