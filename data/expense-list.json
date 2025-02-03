@@ -3,7 +3,7 @@
     {
       "id": "5586f912-5be3-4677-b8d4-8f6561858d82",
       "name": "a",
-      "amount": 1000,
+      "amount": 700,
       "category": "Childcare",
       "date": "2025-01-26"
     },
@@ -12,14 +12,14 @@
       "name": "b",
       "amount": 500,
       "category": "Entertainment",
-      "date": "2025-01-27"
+      "date": "2024-12-30"
     },
     {
       "id": "a5a36a28-bbe7-4a06-87a1-283a770abc95",
       "name": "c",
       "amount": 1000,
       "category": "Food",
-      "date": "2025-01-28"
+      "date": "2025-01-01"
     },
     {
       "id": "9597c687-abad-4689-b0f7-fed4759ecaff",
@@ -33,7 +33,7 @@
       "name": "e",
       "amount": 1000,
       "category": "Housing",
-      "date": "2025-01-30"
+      "date": "2024-12-31"
     },
     {
       "id": "645d58ac-b69d-4ea5-9015-64e374fa88a5",
