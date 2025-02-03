@@ -29,6 +29,7 @@ yarn install
 5 - Once all the necessary dependencies are installed, please run the following commands in the command prompt to start the json-server :
 
 npx json-server -p 3500 -w data/categories.json
+
 npx json-server -p 3501 -w data/expense-list.json
 
 These two commands will start two endpoints that will be our mock REST APIs.
