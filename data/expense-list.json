@@ -5,7 +5,7 @@
       "name": "a",
       "amount": 700,
       "category": "Childcare",
-      "date": "2025-01-26"
+      "date": "2025-01-22"
     },
     {
       "id": "c23177fe-17ec-40a6-90d8-1edc024b2c83",
@@ -48,6 +48,13 @@
       "amount": 1000,
       "category": "Sports Club",
       "date": "2025-02-02"
+    },
+    {
+      "id": "107f102c-6dec-4074-9417-beec5b2a3ae0",
+      "name": "h",
+      "amount": 1550,
+      "category": "Transportation",
+      "date": "2025-02-03"
     }
   ]
 }

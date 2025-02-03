@@ -36,6 +36,8 @@ These two commands will start two endpoints that will be our mock REST APIs.
 
 While using the client application, please do not close these two command prompt windows and make sure that they continue to run.
 
+PS: If the console asks for additional dependency regarding the json-server, please accept it by typing y and then enter to install the necessary dependency for the json-server.
+
 6 - After seeing that the json-server is running for both endpoints, please run the following command:
 
 yarn start
