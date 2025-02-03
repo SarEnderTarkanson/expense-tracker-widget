@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import useExpenseList from "../../hooks/useExpenseList";
-import $ from "jquery";
-import "bootstrap-datepicker";
 import "./expense-list-styles.css";
 import "../styles.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -20,42 +18,16 @@ const ExpenseList = () => {
     handleSort,
     handleFilterChange,
     handleEditStart,
-    handleEditConfirm,
     handleKeyPress,
   } = useExpenseList();
 
   const editFieldRef = useRef(null);
 
   useEffect(() => {
-    if (editing?.key === "date") {
-      const $datepicker = $(`#datepicker-${editing.index}`);
-      $datepicker
-        .datepicker({
-          format: "yyyy-mm-dd",
-          autoclose: true,
-          todayHighlight: true,
-          orientation: "bottom",
-        })
-        .on("changeDate", (e) => {
-          handleEditConfirm(editing.index, "date", e.format());
-        })
-        .on("show", () => {
-          $(".datepicker").css("cursor", "pointer");
-        });
-
-      $datepicker.datepicker("show");
-
-      if (!editValue) {
-        $datepicker.datepicker("setDate", new Date());
-      } else {
-        $datepicker.datepicker("setDate", editValue);
-      }
-    }
-
     if (editing) {
       editFieldRef.current?.focus();
     }
-  }, [editing, editValue, handleEditConfirm]);
+  }, [editing]);
 
   const getSortIcon = (key) => {
     if (sortConfig.key !== key || sortConfig.direction === "none") {
@@ -149,10 +121,13 @@ const ExpenseList = () => {
                         </select>
                       ) : key === "date" ? (
                         <input
-                          id={`datepicker-${index}`}
-                          type="text"
+                          type="date"
                           className={`form-control ${theme}`}
-                          readOnly
+                          value={editValue || ""}
+                          onChange={(e) =>
+                            handleEditStart(index, key, e.target.value)
+                          }
+                          onKeyDown={(e) => handleKeyPress(e, index, key)}
                           ref={editFieldRef}
                           autoFocus
                         />

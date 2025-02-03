@@ -4,21 +4,21 @@
       "id": "5586f912-5be3-4677-b8d4-8f6561858d82",
       "name": "a",
       "amount": 700,
-      "category": "Childcare",
-      "date": "2025-01-22"
+      "category": "Union",
+      "date": "2025-01-08"
     },
     {
       "id": "c23177fe-17ec-40a6-90d8-1edc024b2c83",
       "name": "b",
       "amount": 500,
-      "category": "Entertainment",
-      "date": "2024-12-30"
+      "category": "Housing",
+      "date": "2025-01-08"
     },
     {
       "id": "a5a36a28-bbe7-4a06-87a1-283a770abc95",
       "name": "c",
       "amount": 1000,
-      "category": "Food",
+      "category": "Housing",
       "date": "2025-01-01"
     },
     {
@@ -54,6 +54,13 @@
       "name": "h",
       "amount": 1550,
       "category": "Transportation",
+      "date": "2025-02-03"
+    },
+    {
+      "id": "3f10b095-ed59-47e1-abca-039a0f77ed71",
+      "name": "i",
+      "amount": 350,
+      "category": "Union",
       "date": "2025-02-03"
     }
   ]

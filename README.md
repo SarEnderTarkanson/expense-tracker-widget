@@ -70,7 +70,7 @@ This section visualizes the inserted expenses in terms of amount and percentage 
 
 The section visualizes the expenses of the user based on date in a line chart. With the line chart, users can track the trend of their total spending on any date. 
 
-There is a "dark mode / light mode" button at the top right corner of the page, which enables the user to choose between the two themes.
+There is a "dark mode (🌙) / light mode (☀️)" button at the top right corner of the page, which enables the user to choose between the two themes.
 
 The application is built with as clean and simple as possible UI. Advanced and futuristic animations or elements are avoided to provide the user with a clean, simple and non-complex UI.
 

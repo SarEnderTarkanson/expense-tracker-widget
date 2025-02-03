@@ -14,7 +14,7 @@ const App = () => {
       <header className={`header ${theme}`} role="banner">
         <h1 id="app-title">Expense Tracker</h1>
         <button className={`theme-toggle-btn ${theme}`} onClick={toggleTheme}>
-          {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
+          {theme === "light" ? "🌙" : "☀️"}
         </button>
       </header>
       <main className="container mt-4" role="main" aria-labelledby="app-title">
