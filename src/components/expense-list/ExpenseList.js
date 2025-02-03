@@ -35,11 +35,6 @@ const ExpenseList = () => {
           autoclose: true,
           todayHighlight: true,
           orientation: "bottom",
-          defaultViewDate: {
-            year: new Date().getFullYear(),
-            month: new Date().getMonth(),
-            day: new Date().getDate(),
-          },
         })
         .on("changeDate", (e) => {
           handleEditConfirm(editing.index, "date", e.format());
@@ -178,11 +173,16 @@ const ExpenseList = () => {
                     ) : (
                       <span
                         className="editable-text"
+                        tabIndex="0"
+                        role="button"
                         onClick={() =>
                           handleEditStart(index, key, expense[key])
                         }
-                        tabIndex="0"
-                        role="button"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            handleEditStart(index, key, expense[key]);
+                          }
+                        }}
                         aria-label={`Edit ${key}: ${expense[key]}`}
                       >
                         {expense[key]}

@@ -19,16 +19,19 @@ const useExpensePieChart = () => {
       }
     });
 
-    Object.keys(totals).forEach((key) => {
-      if (totals[key] === 0) {
-        totals[key] = 0.001;
-      }
-    });
-
     return totals;
   }, [expenseList, categories]);
 
+  const hasData = useMemo(
+    () => Object.values(categoryData).some((value) => value > 0),
+    [categoryData]
+  );
+
   const expenseData = useMemo(() => {
+    if (!hasData) {
+      return null;
+    }
+
     return {
       labels: Object.keys(categoryData),
       datasets: [
@@ -44,7 +47,7 @@ const useExpensePieChart = () => {
         },
       ],
     };
-  }, [categoryData, categoryColors]);
+  }, [categoryData, categoryColors, hasData]);
 
   const options = useMemo(() => {
     return {
@@ -61,12 +64,12 @@ const useExpensePieChart = () => {
         tooltip: {
           callbacks: {
             label: function (tooltipItem) {
-              const value = tooltipItem.raw === 0.001 ? 0 : tooltipItem.raw;
+              const value = tooltipItem.raw;
               const total = Object.values(categoryData).reduce(
-                (a, b) => (b === 0.001 ? a : a + b),
+                (a, b) => a + b,
                 0
               );
-              return ` ${value} (${
+              return `${value} NOK (${
                 total > 0 ? ((value / total) * 100).toFixed(2) : "0.00"
               }%)`;
             },
@@ -77,8 +80,8 @@ const useExpensePieChart = () => {
       maintainAspectRatio: false,
     };
   }, [theme, categoryData]);
-
-  return { expenseData, options, categoryData };
+  console.log(expenseData)
+  return { expenseData, options, hasData };
 };
 
 export default useExpensePieChart;

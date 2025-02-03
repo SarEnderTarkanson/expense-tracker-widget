@@ -1,51 +1,51 @@
 {
   "expense-list": [
     {
-      "id": "16d5e49a-fa55-4161-ac2c-bdbdb607759e",
-      "name": "rent",
+      "id": "5586f912-5be3-4677-b8d4-8f6561858d82",
+      "name": "a",
       "amount": 1000,
-      "category": "Housing",
-      "date": "2025-01-07"
-    },
-    {
-      "id": "83482066-e5c8-4ac4-bd4d-7b5237291c98",
-      "name": "banana",
-      "amount": 1250,
-      "category": "Food",
+      "category": "Childcare",
       "date": "2025-01-26"
     },
     {
-      "id": "40d46793-bf66-42b8-8776-32c3344fcdf0",
-      "name": "barnehage",
+      "id": "c23177fe-17ec-40a6-90d8-1edc024b2c83",
+      "name": "b",
+      "amount": 500,
+      "category": "Entertainment",
+      "date": "2025-01-27"
+    },
+    {
+      "id": "a5a36a28-bbe7-4a06-87a1-283a770abc95",
+      "name": "c",
       "amount": 1000,
-      "category": "Childcare",
+      "category": "Food",
+      "date": "2025-01-28"
+    },
+    {
+      "id": "9597c687-abad-4689-b0f7-fed4759ecaff",
+      "name": "d",
+      "amount": 1000,
+      "category": "Health",
       "date": "2025-01-29"
     },
     {
-      "id": "3550a1f8-a35d-4e68-9f5d-4e5c366efb08",
-      "name": "hytta rent",
+      "id": "b45c7e21-dcef-4db0-90b6-b3e63cac7194",
+      "name": "e",
       "amount": 1000,
       "category": "Housing",
-      "date": "2024-09-30"
+      "date": "2025-01-30"
     },
     {
-      "id": "4048c792-4cf6-4b35-8c64-c36dfd3e8129",
-      "name": "plane ticket",
-      "amount": 375,
-      "category": "Transportation",
-      "date": "2025-02-02"
-    },
-    {
-      "id": "1ab4d744-5f63-4843-8fcd-75f55df33f43",
-      "name": "test",
-      "amount": 2500,
+      "id": "645d58ac-b69d-4ea5-9015-64e374fa88a5",
+      "name": "f",
+      "amount": 1000,
       "category": "Other",
       "date": "2025-02-02"
     },
     {
-      "id": "0fca0f34-3374-4df8-8f22-52e0891a8b12",
-      "name": "test19",
-      "amount": 111,
+      "id": "4d0bac43-f953-48f8-9a0c-0dbaa406382f",
+      "name": "g",
+      "amount": 1000,
       "category": "Sports Club",
       "date": "2025-02-02"
     }
