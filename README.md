@@ -42,7 +42,7 @@ yarn start
 
 (in case of using npm as the package manager, please replace the word "yarn" with "npm" in the command above -> npm start)
 
-This will start the client application.
+This will start the local server for the client applicaiton and the client application should start running a prompted browser window.
 
 After seeing that the new window is opened in your browser, you can start testing the application.
 
