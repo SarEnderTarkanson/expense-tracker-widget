@@ -20,6 +20,13 @@
       "amount": 1250,
       "category": "Food",
       "date": "2025-02-03"
+    },
+    {
+      "id": "771e64dc-501b-4419-af3e-794f57b6d4b2",
+      "name": "d",
+      "amount": 1000,
+      "category": "Health",
+      "date": "2025-02-03"
     }
   ]
 }

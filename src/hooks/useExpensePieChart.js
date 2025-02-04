@@ -91,7 +91,7 @@ const useExpensePieChart = () => {
       responsive: true,
       maintainAspectRatio: false,
     };
-  }, [theme, categoryData]);
+  }, [categoryData]);
 
   return { expenseData, options, hasData, customLegend };
 };
