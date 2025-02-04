@@ -21,7 +21,7 @@
 }
 
 .app-title {
-  text-align: center;
+  text-align: left;
   transition: color 0.3s ease, transform 0.2s ease;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .theme-toggle-btn {
-  padding: 8px 12px;
+  padding: 4px 8px;
   font-size: 14px;
   border: none;
   border-radius: 5px;
