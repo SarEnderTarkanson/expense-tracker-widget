@@ -43,7 +43,10 @@ const useExpenseList = () => {
         newDirection = "ascending";
       }
 
-      return { key, direction: newDirection };
+      return {
+        key: newDirection === "none" ? null : key,
+        direction: newDirection,
+      };
     });
   };
 

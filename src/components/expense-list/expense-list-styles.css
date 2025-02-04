@@ -157,14 +157,25 @@
   transition: color 0.3s ease, transform 0.2s ease;
 }
 
-.sort-button:hover {
+.sort-button:hover .sort-icon-neutral {
   color: #007bff;
-  transform: scale(1.05);
 }
 
-.sort-icon {
-  font-size: 1rem;
-  transition: transform 0.3s ease, color 0.3s ease;
+.sort-button:hover .sort-icon-ascending,
+.sort-button:hover .sort-icon-descending {
+  transform: scale(1.2);
+}
+
+.sort-icon-ascending {
+  color: #28a745;
+  transform: scale(1.1);
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.sort-icon-descending {
+  color: #dc3545; 
+  transform: scale(1.1);
+  transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .sort-button:hover .sort-icon {

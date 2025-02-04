@@ -31,23 +31,19 @@ const ExpenseList = () => {
 
   const getSortIcon = (key) => {
     if (sortConfig.key !== key || sortConfig.direction === "none") {
-      return <i className="bi bi-arrow-down-up" aria-hidden="true"></i>;
+      return (
+        <i
+          className="bi bi-arrow-down-up sort-icon-neutral"
+          aria-hidden="true"
+        ></i>
+      );
     }
 
-    const isAlphaSort = key === "name" || key === "category";
-
     return sortConfig.direction === "ascending" ? (
-      <i
-        className={`bi ${
-          isAlphaSort ? "bi-sort-alpha-up" : "bi-sort-numeric-up"
-        }`}
-        aria-hidden="true"
-      ></i>
+      <i className="bi bi-arrow-up sort-icon-ascending" aria-hidden="true"></i>
     ) : (
       <i
-        className={`bi ${
-          isAlphaSort ? "bi-sort-alpha-down" : "bi-sort-numeric-down"
-        }`}
+        className="bi bi-arrow-down sort-icon-descending"
         aria-hidden="true"
       ></i>
     );
@@ -59,9 +55,8 @@ const ExpenseList = () => {
       aria-labelledby="expense-list-title"
     >
       <h4 id="expense-list-title" className={`expense-list-title ${theme}`}>
-  <i className="bi bi-list-ul expense-list-icon"></i> Expense List
-</h4>
-
+        <i className="bi bi-list-ul expense-list-icon"></i> Expense List
+      </h4>
 
       <div className="mb-3">
         <label htmlFor="filter-category" className={`filter-label ${theme}`}>
@@ -95,16 +90,7 @@ const ExpenseList = () => {
                     aria-label={`Sort by ${key}`}
                   >
                     {key.charAt(0).toUpperCase() + key.slice(1)}
-                    <i
-                      className={`bi ${
-                        sortConfig.key === key
-                          ? sortConfig.direction === "ascending"
-                            ? "bi-sort-alpha-up sort-icon-active"
-                            : "bi-sort-alpha-down sort-icon-active"
-                          : "bi-arrow-down-up sort-icon"
-                      }`}
-                      aria-hidden="true"
-                    ></i>
+                    {getSortIcon(key)}
                   </button>
                 </th>
               ))}
