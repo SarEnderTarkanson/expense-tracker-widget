@@ -10,6 +10,7 @@ const AddExpenseForm = () => {
     name,
     amount,
     category,
+    date,
     alert,
     warnings,
     loading,
@@ -17,6 +18,7 @@ const AddExpenseForm = () => {
     handleNameChange,
     handleAmountChange,
     handleCategoryChange,
+    handleDateChange,
     handleSubmit,
     clearAlert,
   } = useAddExpenseForm();
@@ -26,7 +28,6 @@ const AddExpenseForm = () => {
       const timer = setTimeout(() => {
         clearAlert();
       }, 10000);
-
       return () => clearTimeout(timer);
     }
   }, [alert, clearAlert]);
@@ -53,7 +54,6 @@ const AddExpenseForm = () => {
       <form className="d-flex flex-column" onSubmit={handleSubmit} noValidate>
         <fieldset>
           <legend className="visually-hidden">Expense Details</legend>
-
           <div className="mb-4">
             <label htmlFor="name" className={`form-label ${theme}`}>
               <i className="bi bi-pencil label-icon"></i> Name
@@ -69,17 +69,11 @@ const AddExpenseForm = () => {
               aria-describedby={warnings.name ? "name-warning" : undefined}
             />
             {warnings.name && (
-              <span
-                id="name-warning"
-                className="text-danger"
-                role="alert"
-                aria-live="polite"
-              >
+              <span id="name-warning" className="text-danger" role="alert">
                 {warnings.name}
               </span>
             )}
           </div>
-
           <div className="mb-4">
             <label htmlFor="amount" className={`form-label ${theme}`}>
               <i className="bi bi-cash-stack label-icon"></i> Amount
@@ -96,17 +90,11 @@ const AddExpenseForm = () => {
               aria-describedby={warnings.amount ? "amount-warning" : undefined}
             />
             {warnings.amount && (
-              <span
-                id="amount-warning"
-                className="text-danger"
-                role="alert"
-                aria-live="polite"
-              >
+              <span id="amount-warning" className="text-danger" role="alert">
                 {warnings.amount}
               </span>
             )}
           </div>
-
           <div className="mb-4">
             <label htmlFor="category" className={`form-label ${theme}`}>
               <i className="bi bi-tags label-icon"></i> Category
@@ -130,23 +118,35 @@ const AddExpenseForm = () => {
               ))}
             </select>
             {warnings.category && (
-              <span
-                id="category-warning"
-                className="text-danger"
-                role="alert"
-                aria-live="polite"
-              >
+              <span id="category-warning" className="text-danger" role="alert">
                 {warnings.category}
               </span>
             )}
           </div>
-
+          <div className="mb-4">
+            <label htmlFor="date" className={`form-label ${theme}`}>
+              <i className="bi bi-calendar label-icon"></i> Date
+            </label>
+            <input
+              type="date"
+              className={`form-control input-field ${theme}`}
+              id="date"
+              value={date}
+              onChange={handleDateChange}
+              required
+              aria-describedby={warnings.date ? "date-warning" : undefined}
+            />
+            {warnings.date && (
+              <span id="date-warning" className="text-danger" role="alert">
+                {warnings.date}
+              </span>
+            )}
+          </div>
           <div className="d-flex flex-column justify-content-end align-items-center p-3 h-100">
             <button
               type="submit"
               className="btn btn-primary w-50"
               disabled={loading}
-              aria-disabled={loading}
             >
               {loading ? "Adding..." : "Add"}
             </button>

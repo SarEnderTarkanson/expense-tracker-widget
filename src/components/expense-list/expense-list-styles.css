@@ -33,7 +33,7 @@
 }
 
 .expense-list-scroll-container {
-  max-height: 300px;
+  max-height: 400px;
   overflow-y: auto;
   scrollbar-width: thin;
   transition: scrollbar-color 0.3s ease;
@@ -117,6 +117,10 @@
 .editable-text {
   cursor: pointer;
   border-bottom: 1px dashed #007bff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 .expense-list-table-header {
@@ -173,7 +177,7 @@
 }
 
 .sort-icon-descending {
-  color: #dc3545; 
+  color: #dc3545;
   transform: scale(1.1);
   transition: color 0.3s ease, transform 0.2s ease;
 }
@@ -249,5 +253,29 @@
   font-size: 1.5rem;
   vertical-align: middle;
   color: inherit;
+}
+
+.expense-list-section table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.expense-list-section th,
+.expense-list-section td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px;
+}
+
+.expense-list-section td input,
+.expense-list-section td select {
+  text-align: center;
+}
+
+.expense-list-section th button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 

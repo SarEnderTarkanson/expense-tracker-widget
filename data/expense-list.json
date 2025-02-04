@@ -1,32 +1,60 @@
 {
   "expense-list": [
     {
-      "id": "ee74a46c-ec38-4c65-9894-3ab1eb9363f9",
+      "id": "619afaa8-180b-41f2-9f9c-9c7c289624e0",
       "name": "a",
       "amount": 1000,
       "category": "Childcare",
-      "date": "2025-02-01"
+      "date": "2025-02-04"
     },
     {
-      "id": "08d1c27b-c26a-4c70-852c-3f4fe5875763",
+      "id": "9b3d0c1b-d896-4f72-a9ad-327a06f5b1dc",
       "name": "b",
-      "amount": 750,
+      "amount": 500,
       "category": "Entertainment",
-      "date": "2025-02-02"
-    },
-    {
-      "id": "6c511199-fb63-4ab7-aeb7-7b4720dfe4e6",
-      "name": "c",
-      "amount": 1250,
-      "category": "Food",
       "date": "2025-02-03"
     },
     {
-      "id": "771e64dc-501b-4419-af3e-794f57b6d4b2",
+      "id": "a06808d0-c65f-49da-b8af-2b10534bf96e",
+      "name": "c",
+      "amount": 750,
+      "category": "Food",
+      "date": "2025-02-02"
+    },
+    {
+      "id": "c3ecc028-7fd7-4c49-b6ec-1ccc1714ad96",
       "name": "d",
-      "amount": 1000,
+      "amount": 250,
       "category": "Health",
-      "date": "2025-02-04"
+      "date": "2025-02-01"
+    },
+    {
+      "id": "218edb2f-0634-4ddc-a46f-09cf9b4f829c",
+      "name": "e",
+      "amount": 500,
+      "category": "Housing",
+      "date": "2025-01-31"
+    },
+    {
+      "id": "733924b3-3836-41f7-b7b2-9f5dab5234b6",
+      "name": "f",
+      "amount": 750,
+      "category": "Other",
+      "date": "2025-01-30"
+    },
+    {
+      "id": "98bfe5e2-d442-400e-9fac-5c70d5e63635",
+      "name": "g",
+      "amount": 1000,
+      "category": "Sports Club",
+      "date": "2025-01-29"
+    },
+    {
+      "id": "a449d622-9d76-40b2-9334-ebd791522b98",
+      "name": "h",
+      "amount": 500,
+      "category": "Subscriptions",
+      "date": "2025-01-28"
     }
   ]
 }

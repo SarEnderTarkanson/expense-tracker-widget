@@ -49,7 +49,7 @@ const ExpenseLineChart = () => {
           </>
         ) : (
           <p className="text-muted" aria-live="polite">
-            No data available.
+            No data available yet.
           </p>
         )}
       </div>

@@ -6,11 +6,13 @@ const useAddExpenseForm = () => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
+  const [date, setDate] = useState("");
   const [alert, setAlert] = useState(null);
   const [warnings, setWarnings] = useState({
     name: "",
     amount: "",
     category: "",
+    date: "",
   });
 
   useEffect(() => {
@@ -18,6 +20,10 @@ const useAddExpenseForm = () => {
       fetchCategories();
     }
   }, [categories, fetchCategories]);
+
+  const validateDate = (value) => {
+    return value.trim() !== "";
+  };
 
   const validateName = (value) => {
     return /[a-zA-Z]/.test(value) && !/^\d+(\.\d+)?$/.test(value);
@@ -40,7 +46,7 @@ const useAddExpenseForm = () => {
     setWarnings((prev) => ({
       ...prev,
       amount:
-        value === "" || !/^\d+(\.\d+)?$/.test(value) || Number(value) <= 0
+        value === "" || isNaN(value) || Number(value) <= 0
           ? "Please enter a valid positive number."
           : "",
     }));
@@ -54,22 +60,23 @@ const useAddExpenseForm = () => {
     }));
   };
 
+  const handleDateChange = (e) => {
+    setDate(e.target.value);
+    setWarnings((prev) => ({
+      ...prev,
+      date: validateDate(e.target.value) ? "" : "Please select a valid date.",
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const isValidName = validateName(name);
     const newWarnings = {
-      name:
-        name.trim() === ""
-          ? "Please enter a name."
-          : !isValidName
-          ? "Expense name must include letters and cannot be just a number."
-          : "",
+      name: name.trim() === "" ? "Please enter a name." : "",
       amount:
-        !amount || Number(amount) <= 0
-          ? "Please enter a positive number for the amount."
-          : "",
+        !amount || Number(amount) <= 0 ? "Please enter a positive amount." : "",
       category: category === "" ? "Please select a category." : "",
+      date: validateDate(date) ? "" : "Please select a valid date.",
     };
 
     setWarnings(newWarnings);
@@ -86,7 +93,7 @@ const useAddExpenseForm = () => {
       name,
       amount: parseFloat(amount),
       category,
-      date: new Date().toISOString().split("T")[0],
+      date,
     };
 
     try {
@@ -94,7 +101,7 @@ const useAddExpenseForm = () => {
       setName("");
       setAmount("");
       setCategory("");
-      setWarnings({ name: "", amount: "", category: "" });
+      setDate("");
       setAlert({ type: "success", message: "Expense added successfully!" });
     } catch (err) {
       setAlert({
@@ -112,6 +119,7 @@ const useAddExpenseForm = () => {
     name,
     amount,
     category,
+    date,
     alert,
     warnings,
     loading,
@@ -119,6 +127,7 @@ const useAddExpenseForm = () => {
     handleNameChange,
     handleAmountChange,
     handleCategoryChange,
+    handleDateChange,
     handleSubmit,
     clearAlert,
   };
