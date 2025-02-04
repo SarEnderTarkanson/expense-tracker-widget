@@ -8,11 +8,7 @@ const useExpenseLineChart = () => {
 
   const aggregatedData = useMemo(() => {
     return expenseList.reduce((acc, item) => {
-      if (acc[item.date]) {
-        acc[item.date] += item.amount;
-      } else {
-        acc[item.date] = item.amount;
-      }
+      acc[item.date] = (acc[item.date] || 0) + item.amount;
       return acc;
     }, {});
   }, [expenseList]);
@@ -39,18 +35,35 @@ const useExpenseLineChart = () => {
     };
   }, [aggregatedData, sortedDates]);
 
+  const customLegend = useMemo(() => {
+    if (!chartData.datasets.length) return null;
+
+    return (
+      <ul className={`custom-legend ${theme}`}>
+        {chartData.datasets.map((dataset, index) => (
+          <li key={index}>
+            <span
+              className="legend-color"
+              style={{ backgroundColor: dataset.borderColor }}
+            ></span>
+            {dataset.label}
+          </li>
+        ))}
+      </ul>
+    );
+  }, [chartData, theme]);
+
   const options = useMemo(() => {
     return {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
-          labels: {
-            color: theme === "light" ? "#333" : "#fff",
-          },
+          display: false,
         },
         tooltip: {
           callbacks: {
-            label: (context) => `Amount: $${context.raw}`,
+            label: (context) => `Amount: ${context.raw} NOK`,
           },
           titleColor: theme === "light" ? "#333" : "#fff",
           bodyColor: theme === "light" ? "#333" : "#fff",
@@ -66,12 +79,8 @@ const useExpenseLineChart = () => {
             text: "Date",
             color: theme === "light" ? "#333" : "#fff",
           },
-          ticks: {
-            color: theme === "light" ? "#333" : "#fff",
-          },
-          grid: {
-            color: theme === "light" ? "#e0e0e0" : "#555",
-          },
+          ticks: { color: theme === "light" ? "#333" : "#fff" },
+          grid: { color: theme === "light" ? "#e0e0e0" : "#555" },
         },
         y: {
           title: {
@@ -79,19 +88,15 @@ const useExpenseLineChart = () => {
             text: "Amount (NOK)",
             color: theme === "light" ? "#333" : "#fff",
           },
-          ticks: {
-            color: theme === "light" ? "#333" : "#fff",
-          },
-          grid: {
-            color: theme === "light" ? "#e0e0e0" : "#555",
-          },
+          ticks: { color: theme === "light" ? "#333" : "#fff" },
+          grid: { color: theme === "light" ? "#e0e0e0" : "#555" },
           beginAtZero: true,
         },
       },
     };
   }, [theme]);
 
-  return { chartData, options };
+  return { chartData, options, customLegend };
 };
 
 export default useExpenseLineChart;

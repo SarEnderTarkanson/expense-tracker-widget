@@ -36,7 +36,9 @@ const AddExpenseForm = () => {
       className={`p-4 border rounded equal-height d-flex flex-column add-expense-section ${theme}`}
       aria-labelledby="add-expense-form-title"
     >
-      <h5 id="add-expense-form-title">Add Expense</h5>
+      <h4 id="add-expense-form-title" className={`add-expense-title ${theme}`}>
+        <i className="bi bi-plus-circle add-expense-icon"></i> Add Expense
+      </h4>
 
       {alert && (
         <div
@@ -53,8 +55,8 @@ const AddExpenseForm = () => {
           <legend className="visually-hidden">Expense Details</legend>
 
           <div className="mb-4">
-            <label htmlFor="name" className="form-label">
-              Name
+            <label htmlFor="name" className={`form-label ${theme}`}>
+              <i className="bi bi-pencil label-icon"></i> Name
             </label>
             <input
               type="text"
@@ -79,8 +81,8 @@ const AddExpenseForm = () => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="amount" className="form-label">
-              Amount
+            <label htmlFor="amount" className={`form-label ${theme}`}>
+              <i className="bi bi-cash-stack label-icon"></i> Amount
             </label>
             <input
               type="text"
@@ -106,8 +108,8 @@ const AddExpenseForm = () => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="category" className="form-label">
-              Category
+            <label htmlFor="category" className={`form-label ${theme}`}>
+              <i className="bi bi-tags label-icon"></i> Category
             </label>
             <select
               id="category"

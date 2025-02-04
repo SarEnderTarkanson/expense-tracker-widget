@@ -58,10 +58,15 @@ const ExpenseList = () => {
       className={`p-4 border rounded equal-height d-flex flex-column expense-list-section ${theme}`}
       aria-labelledby="expense-list-title"
     >
-      <h5 id="expense-list-title">Expense List</h5>
+      <h4 id="expense-list-title" className={`expense-list-title ${theme}`}>
+  <i className="bi bi-list-ul expense-list-icon"></i> Expense List
+</h4>
+
 
       <div className="mb-3">
-        <label htmlFor="filter-category">Filter by Category:</label>
+        <label htmlFor="filter-category" className={`filter-label ${theme}`}>
+          Filter by Category:
+        </label>
         <select
           id="filter-category"
           className={`form-select filter-category-select ${theme}`}
@@ -85,17 +90,27 @@ const ExpenseList = () => {
               {["name", "amount", "category", "date"].map((key) => (
                 <th key={key} className={`expense-list-table-header ${theme}`}>
                   <button
-                    className={`btn btn-link p-0 d-flex align-items-center gap-1 ${theme}`}
+                    className={`sort-button ${theme}`}
                     onClick={() => handleSort(key)}
                     aria-label={`Sort by ${key}`}
                   >
                     {key.charAt(0).toUpperCase() + key.slice(1)}
-                    {getSortIcon(key)}
+                    <i
+                      className={`bi ${
+                        sortConfig.key === key
+                          ? sortConfig.direction === "ascending"
+                            ? "bi-sort-alpha-up sort-icon-active"
+                            : "bi-sort-alpha-down sort-icon-active"
+                          : "bi-arrow-down-up sort-icon"
+                      }`}
+                      aria-hidden="true"
+                    ></i>
                   </button>
                 </th>
               ))}
             </tr>
           </thead>
+
           <tbody aria-live="polite">
             {sortedExpenses.map((expense, index) => (
               <tr key={expense.id}>

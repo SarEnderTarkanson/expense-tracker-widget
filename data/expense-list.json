@@ -1,66 +1,24 @@
 {
   "expense-list": [
     {
-      "id": "5586f912-5be3-4677-b8d4-8f6561858d82",
+      "id": "ee74a46c-ec38-4c65-9894-3ab1eb9363f9",
       "name": "a",
-      "amount": 700,
-      "category": "Union",
-      "date": "2025-01-08"
+      "amount": 1000,
+      "category": "Childcare",
+      "date": "2025-02-01"
     },
     {
-      "id": "c23177fe-17ec-40a6-90d8-1edc024b2c83",
+      "id": "08d1c27b-c26a-4c70-852c-3f4fe5875763",
       "name": "b",
-      "amount": 500,
-      "category": "Housing",
-      "date": "2025-01-08"
+      "amount": 750,
+      "category": "Entertainment",
+      "date": "2025-02-02"
     },
     {
-      "id": "a5a36a28-bbe7-4a06-87a1-283a770abc95",
+      "id": "6c511199-fb63-4ab7-aeb7-7b4720dfe4e6",
       "name": "c",
-      "amount": 1000,
-      "category": "Housing",
-      "date": "2025-01-01"
-    },
-    {
-      "id": "9597c687-abad-4689-b0f7-fed4759ecaff",
-      "name": "d",
-      "amount": 1000,
-      "category": "Health",
-      "date": "2025-01-29"
-    },
-    {
-      "id": "b45c7e21-dcef-4db0-90b6-b3e63cac7194",
-      "name": "e",
-      "amount": 1000,
-      "category": "Housing",
-      "date": "2024-12-31"
-    },
-    {
-      "id": "645d58ac-b69d-4ea5-9015-64e374fa88a5",
-      "name": "f",
-      "amount": 1000,
-      "category": "Other",
-      "date": "2025-02-02"
-    },
-    {
-      "id": "4d0bac43-f953-48f8-9a0c-0dbaa406382f",
-      "name": "g",
-      "amount": 1000,
-      "category": "Sports Club",
-      "date": "2025-02-02"
-    },
-    {
-      "id": "107f102c-6dec-4074-9417-beec5b2a3ae0",
-      "name": "h",
-      "amount": 1550,
-      "category": "Transportation",
-      "date": "2025-02-03"
-    },
-    {
-      "id": "3f10b095-ed59-47e1-abca-039a0f77ed71",
-      "name": "i",
-      "amount": 350,
-      "category": "Union",
+      "amount": 1250,
+      "category": "Food",
       "date": "2025-02-03"
     }
   ]

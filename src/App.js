@@ -1,22 +1,14 @@
 import React from "react";
+import Header from "./components/header/Header";
 import AddExpenseForm from "./components/add-expense-form/AddExpenseForm";
 import ExpenseList from "./components/expense-list/ExpenseList";
 import ExpensePieChart from "./components/expense-pie-chart/ExpensePieChart";
 import ExpenseLineChart from "./components/expense-line-chart/ExpenseLineChart";
-import { useTheme } from "./context/ThemeContext";
-import "./App.css";
 
 const App = () => {
-  const { theme, toggleTheme } = useTheme();
-
   return (
     <>
-      <header className={`header ${theme}`} role="banner">
-        <h1 id="app-title">Expense Tracker</h1>
-        <button className={`theme-toggle-btn ${theme}`} onClick={toggleTheme}>
-          {theme === "light" ? "🌙" : "☀️"}
-        </button>
-      </header>
+      <Header />
       <main className="container mt-4" role="main" aria-labelledby="app-title">
         <div className="container mt-4">
           <div className="row g-4">

@@ -1,6 +1,7 @@
 .expense-summary-section {
   transition: background-color 0.3s ease, color 0.3s ease;
   border: 1px solid;
+  min-height: 400px;
 }
 
 .expense-summary-section.light {
@@ -19,4 +20,82 @@
   height: 300px;
   transition: background-color 0.3s ease, color 0.3s ease,
     border-color 0.3s ease;
+}
+
+.expense-summary-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 3px solid transparent;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.expense-summary-title.light {
+  color: #333;
+  border-color: #ccc;
+}
+
+.expense-summary-title.dark {
+  color: #fff;
+  border-color: #666;
+}
+
+.expense-summary-title:hover {
+  border-color: #007bff;
+  cursor: pointer;
+}
+
+.expense-summary-icon {
+  margin-right: 8px;
+  font-size: 1.5rem;
+  vertical-align: middle;
+  color: inherit;
+}
+
+.custom-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 1rem;
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.custom-legend li {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 500;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.custom-legend.light li {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.custom-legend.dark li {
+  background-color: #222;
+  color: #fff;
+}
+
+.custom-legend li:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 2px solid #fff;
 }

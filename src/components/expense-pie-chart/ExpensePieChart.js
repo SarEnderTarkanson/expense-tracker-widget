@@ -10,19 +10,15 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ExpensePieChart = () => {
   const { theme } = useTheme();
-  const { expenseData, options } = useExpensePieChart();
+  const { expenseData, options, hasData, customLegend } = useExpensePieChart();
 
-  if (
-    !expenseData ||
-    !expenseData.datasets ||
-    expenseData.datasets.length === 0
-  ) {
+  if (!hasData) {
     return (
       <section
         className={`p-4 border rounded equal-height d-flex flex-column expense-summary-section ${theme}`}
         aria-labelledby="expense-summary-title"
       >
-        <h5 id="expense-summary-title">Expense Summary</h5>
+        <h4 id="expense-summary-title">Expense Summary</h4>
         <div
           className={`d-flex justify-content-center align-items-center themed-container ${theme}`}
           role="img"
@@ -42,7 +38,13 @@ const ExpensePieChart = () => {
       className={`p-4 border rounded equal-height d-flex flex-column expense-summary-section ${theme}`}
       aria-labelledby="expense-summary-title"
     >
-      <h5 id="expense-summary-title">Expense Summary</h5>
+      <h4
+        id="expense-summary-title"
+        className={`expense-summary-title ${theme}`}
+      >
+        <i className="bi bi-pie-chart-fill expense-summary-icon"></i> Expense
+        Summary
+      </h4>
 
       <div
         className={`d-flex justify-content-center align-items-center themed-container ${theme}`}
@@ -52,42 +54,13 @@ const ExpensePieChart = () => {
       >
         <Pie
           data={expenseData}
-          options={{
-            ...options,
-            plugins: {
-              legend: {
-                display: true,
-                labels: {
-                  color: theme === "dark" ? "#ffffff" : "#000000",
-                  font: {
-                    size: 14,
-                  },
-                },
-              },
-              tooltip: {
-                enabled: true,
-                callbacks: {
-                  label: function (tooltipItem) {
-                    let dataIndex = tooltipItem.dataIndex;
-                    let dataset = tooltipItem.dataset;
-                    let total = dataset.data.reduce(
-                      (sum, value) => sum + value,
-                      0
-                    );
-                    let value = dataset.data[dataIndex];
-                    let percentage = ((value / total) * 100).toFixed(2);
-                    return `${value} NOK (${percentage}%)`;
-                  },
-                },
-              },
-            },
-            responsive: true,
-            maintainAspectRatio: false,
-          }}
+          options={options}
           role="presentation"
           aria-hidden="true"
         />
       </div>
+
+      {customLegend}
     </section>
   );
 };
