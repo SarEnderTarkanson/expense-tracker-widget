@@ -22,7 +22,7 @@ git clone https://github.com/SarEnderTarkanson/expense-tracker-widget.git
 
 *npm install*
 
-5 - Once all the necessary dependencies are installed, please run the following commands in the command prompt to start the json-server in two separate command prompts (*for Windows*) or terminals (*for MacOS*):
+5 - Once all the necessary dependencies are installed, please run the following commands in to start the json-server in two separate command prompts (*for Windows*) or terminals (*for MacOS*):
 
 *npx json-server -p 3500 -w data/categories.json*
 
@@ -40,9 +40,9 @@ While using the client application, please do not close these two command prompt
 
 This will start the local server for the client applicaiton and the client application should start running in a prompted browser window.
 
-After seeing that the new window is opened in your browser, you can start interacting with the client application.
+After seeing that the new browser window is on in your browser, you can start interacting with the client application.
 
-Therefore, we will have three separate command prompts (*for Windows*) or terminals (*for MacOS*) in total that will be running simultaneously.
+Finally, we will have three separate command prompts (*for Windows*) or terminals (*for MacOS*) in total that will be running simultaneously.
 
 ## Description of Design Choices:
 
