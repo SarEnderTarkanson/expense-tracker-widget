@@ -18,14 +18,21 @@ const ExpensePieChart = () => {
         className={`p-4 border rounded equal-height d-flex flex-column expense-summary-section ${theme}`}
         aria-labelledby="expense-summary-title"
       >
-        <h4 id="expense-summary-title">Expense Summary</h4>
+        <h4
+          id="expense-summary-title"
+          className={`expense-summary-title ${theme}`}
+        >
+          {" "}
+          <i className="bi bi-pie-chart-fill expense-summary-icon"></i> Expense
+          Summary
+        </h4>
         <div
           className={`d-flex justify-content-center align-items-center themed-container ${theme}`}
           role="img"
           aria-label="Pie chart displaying expense distribution by category"
           tabIndex="0"
         >
-          <p className="text-muted" aria-live="polite">
+          <p className={`no data-container ${theme}`} aria-live="polite">
             No data available yet.
           </p>
         </div>

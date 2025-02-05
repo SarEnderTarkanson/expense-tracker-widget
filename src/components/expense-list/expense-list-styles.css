@@ -209,11 +209,11 @@
 }
 
 .filter-label.light {
-  color: #333;
+  color: #333333;
 }
 
 .filter-label.dark {
-  color: #fff;
+  color: #dddddd;
 }
 
 .filter-label:hover {
@@ -279,3 +279,11 @@
   width: 100%;
 }
 
+.no-data-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 200px; 
+  text-align: center;
+}

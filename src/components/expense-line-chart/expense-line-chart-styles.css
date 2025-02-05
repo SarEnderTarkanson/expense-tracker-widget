@@ -6,7 +6,7 @@
   flex-direction: column;
   transition: background-color 0.3s ease, color 0.3s ease,
     border-color 0.3s ease;
-  min-height: 400px
+  min-height: 400px;
 }
 
 .expense-summary-section.light {
@@ -83,7 +83,6 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-
 .custom-legend.light li {
   background-color: #f1f1f1;
   color: #333;
@@ -116,7 +115,6 @@
   align-items: center;
   overflow: hidden;
   max-height: 100%;
-  padding-top: 1rem;
 }
 
 .line-chart {
@@ -125,7 +123,6 @@
   max-width: 100%;
   max-height: 100%;
 }
-
 
 .expense-summary-section {
   display: flex;
@@ -137,4 +134,8 @@
   margin-top: 1rem;
   display: flex;
   justify-content: center;
+}
+
+canvas {
+  margin-top: 1.5rem;
 }

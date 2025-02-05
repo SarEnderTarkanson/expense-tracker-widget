@@ -79,97 +79,108 @@ const ExpenseList = () => {
       </div>
 
       <div className={`expense-list-scroll-container ${theme}`} role="table">
-        <table className="table">
-          <thead>
-            <tr>
-              {["name", "amount", "category", "date"].map((key) => (
-                <th key={key} className={`expense-list-table-header ${theme}`}>
-                  <button
-                    className={`sort-button ${theme}`}
-                    onClick={() => handleSort(key)}
-                    aria-label={`Sort by ${key}`}
-                  >
-                    {key.charAt(0).toUpperCase() + key.slice(1)}
-                    {getSortIcon(key)}
-                  </button>
-                </th>
-              ))}
-            </tr>
-          </thead>
-
-          <tbody aria-live="polite">
-            {sortedExpenses.map((expense, index) => (
-              <tr key={expense.id}>
+        {sortedExpenses.length === 0 ? (
+          <div className={`no-data-container ${theme}`}>
+            <p className={`no data-container ${theme}`} aria-live="polite">
+              No data available yet.
+            </p>
+          </div>
+        ) : (
+          <table className="table">
+            <thead>
+              <tr>
                 {["name", "amount", "category", "date"].map((key) => (
-                  <td key={key} className={`editable-cell ${theme}`}>
-                    {editing?.index === index && editing?.key === key ? (
-                      key === "category" ? (
-                        <select
-                          ref={editFieldRef}
-                          className={`form-select filter-category-select ${theme}`}
-                          value={editValue}
-                          onChange={(e) =>
-                            handleEditStart(index, key, e.target.value)
-                          }
-                          onKeyDown={(e) => handleKeyPress(e, index, key)}
-                          autoFocus
-                        >
-                          {categories.map((category) => (
-                            <option key={category.id} value={category.name}>
-                              {category.name}
-                            </option>
-                          ))}
-                        </select>
-                      ) : key === "date" ? (
-                        <input
-                          type="date"
-                          className={`form-control ${theme}`}
-                          value={editValue || ""}
-                          onChange={(e) =>
-                            handleEditStart(index, key, e.target.value)
-                          }
-                          onKeyDown={(e) => handleKeyPress(e, index, key)}
-                          ref={editFieldRef}
-                          autoFocus
-                        />
-                      ) : (
-                        <input
-                          ref={editFieldRef}
-                          type={key === "amount" ? "number" : "text"}
-                          className={`form-control ${theme}`}
-                          value={editValue}
-                          onChange={(e) =>
-                            handleEditStart(index, key, e.target.value)
-                          }
-                          onKeyDown={(e) => handleKeyPress(e, index, key)}
-                          autoFocus
-                          aria-label={`Edit ${key}`}
-                        />
-                      )
-                    ) : (
-                      <span
-                        className="editable-text"
-                        tabIndex="0"
-                        role="button"
-                        onClick={() =>
-                          handleEditStart(index, key, expense[key])
-                        }
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            handleEditStart(index, key, expense[key]);
-                          }
-                        }}
-                        aria-label={`Edit ${key}: ${expense[key]}`}
-                      >
-                        {expense[key]}
-                      </span>
-                    )}
-                  </td>
+                  <th
+                    key={key}
+                    className={`expense-list-table-header ${theme}`}
+                  >
+                    <button
+                      className={`sort-button ${theme}`}
+                      onClick={() => handleSort(key)}
+                      aria-label={`Sort by ${key}`}
+                    >
+                      {key.charAt(0).toUpperCase() + key.slice(1)}
+                      {getSortIcon(key)}
+                    </button>
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody aria-live="polite">
+              {sortedExpenses.map((expense, index) => (
+                <tr key={expense.id}>
+                  {["name", "amount", "category", "date"].map((key) => (
+                    <td key={key} className={`editable-cell ${theme}`}>
+                      {editing?.index === index && editing?.key === key ? (
+                        key === "category" ? (
+                          <select
+                            ref={editFieldRef}
+                            className={`form-select filter-category-select ${theme}`}
+                            value={editValue}
+                            onChange={(e) =>
+                              handleEditStart(index, key, e.target.value)
+                            }
+                            onKeyDown={(e) => handleKeyPress(e, index, key)}
+                            autoFocus
+                          >
+                            {categories.map((category) => (
+                              <option key={category.id} value={category.name}>
+                                {category.name}
+                              </option>
+                            ))}
+                          </select>
+                        ) : key === "date" ? (
+                          <input
+                            type="date"
+                            className={`form-control ${theme}`}
+                            value={editValue || ""}
+                            onChange={(e) =>
+                              handleEditStart(index, key, e.target.value)
+                            }
+                            onKeyDown={(e) => handleKeyPress(e, index, key)}
+                            ref={editFieldRef}
+                            autoFocus
+                          />
+                        ) : (
+                          <input
+                            ref={editFieldRef}
+                            type={key === "amount" ? "number" : "text"}
+                            className={`form-control ${theme}`}
+                            value={editValue}
+                            onChange={(e) =>
+                              handleEditStart(index, key, e.target.value)
+                            }
+                            onKeyDown={(e) => handleKeyPress(e, index, key)}
+                            autoFocus
+                            aria-label={`Edit ${key}`}
+                          />
+                        )
+                      ) : (
+                        <span
+                          className="editable-text"
+                          tabIndex="0"
+                          role="button"
+                          onClick={() =>
+                            handleEditStart(index, key, expense[key])
+                          }
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              handleEditStart(index, key, expense[key]);
+                            }
+                          }}
+                          aria-label={`Edit ${key}: ${expense[key]}`}
+                        >
+                          {expense[key]}
+                        </span>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
 
       {error && (

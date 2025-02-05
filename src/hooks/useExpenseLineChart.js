@@ -14,14 +14,24 @@ const useExpenseLineChart = () => {
   }, [expenseList]);
 
   const sortedDates = useMemo(() => {
-    return Object.keys(aggregatedData).sort(
-      (a, b) => new Date(a) - new Date(b)
-    );
+    return Object.keys(aggregatedData)
+      .map((date) => new Date(date))
+      .sort((a, b) => a - b)
+      .map((date) => date.toISOString().split("T")[0]);
   }, [aggregatedData]);
+
+  const formattedDates = useMemo(() => {
+    return sortedDates.map((date) =>
+      new Date(date).toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+      })
+    );
+  }, [sortedDates]);
 
   const chartData = useMemo(() => {
     return {
-      labels: sortedDates,
+      labels: formattedDates,
       datasets: [
         {
           label: "Expenses",
@@ -33,7 +43,7 @@ const useExpenseLineChart = () => {
         },
       ],
     };
-  }, [aggregatedData, sortedDates]);
+  }, [aggregatedData, sortedDates, formattedDates]);
 
   const customLegend = useMemo(() => {
     if (!chartData.datasets.length) return null;
@@ -79,7 +89,9 @@ const useExpenseLineChart = () => {
             text: "Date",
             color: theme === "light" ? "#333" : "#fff",
           },
-          ticks: { color: theme === "light" ? "#333" : "#fff" },
+          ticks: {
+            color: theme === "light" ? "#333" : "#fff",
+          },
           grid: { color: theme === "light" ? "#e0e0e0" : "#555" },
         },
         y: {
@@ -88,7 +100,9 @@ const useExpenseLineChart = () => {
             text: "Amount (NOK)",
             color: theme === "light" ? "#333" : "#fff",
           },
-          ticks: { color: theme === "light" ? "#333" : "#fff" },
+          ticks: {
+            color: theme === "light" ? "#333" : "#fff",
+          },
           grid: { color: theme === "light" ? "#e0e0e0" : "#555" },
           beginAtZero: true,
         },
