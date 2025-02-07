@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useExpenses } from "../context/ExpenseContext";
 
 const useExpenseList = () => {
-  const { expenseList, categories, updateExpense } = useExpenses();
+  const { expenseList, categories, updateExpense, error, clearError } =
+    useExpenses();
 
   const [sortConfig, setSortConfig] = useState({
     key: null,
@@ -11,7 +12,16 @@ const useExpenseList = () => {
   const [filterCategory, setFilterCategory] = useState("");
   const [editing, setEditing] = useState(null);
   const [editValue, setEditValue] = useState("");
-  const [error, setError] = useState(null);
+  const [localError, setLocalError] = useState(null);
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        clearError();
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, clearError]);
 
   const sortedExpenses = [...expenseList].sort((a, b) => {
     if (sortConfig.direction === "none") return 0;
@@ -57,23 +67,24 @@ const useExpenseList = () => {
   const handleEditStart = (index, key, value) => {
     setEditing({ index, key });
     setEditValue(value);
-    setError(null);
+    setLocalError(null);
   };
 
-  const handleEditConfirm = (index, key, value = null) => {
+  const handleEditConfirm = async (index, key, value = null) => {
     const finalValue = value || editValue;
+
     if (key === "date" && !/^\d{4}-\d{2}-\d{2}$/.test(finalValue)) {
-      setError("Date must be in YYYY-MM-DD format.");
+      setLocalError("Date must be in YYYY-MM-DD format.");
       return;
     }
 
     if (key === "name") {
       if (!finalValue.trim()) {
-        setError("Name cannot be empty.");
+        setLocalError("Name cannot be empty.");
         return;
       }
       if (!/[a-zA-Z]/.test(finalValue)) {
-        setError("Name must contain at least one alphabetic character.");
+        setLocalError("Name must contain at least one alphabetic character.");
         return;
       }
     }
@@ -85,7 +96,7 @@ const useExpenseList = () => {
         !/^\d+(\.\d+)?$/.test(trimmedValue) ||
         Number(trimmedValue) <= 0
       ) {
-        setError("Please enter a valid positive number.");
+        setLocalError("Please enter a valid positive number.");
         return;
       }
     }
@@ -95,10 +106,14 @@ const useExpenseList = () => {
       [key]: key === "amount" ? parseFloat(finalValue) : finalValue,
     };
 
-    updateExpense(updatedExpense.id, updatedExpense);
-    setEditing(null);
-    setEditValue("");
-    setError(null);
+    try {
+      await updateExpense(updatedExpense.id, updatedExpense);
+      setEditing(null);
+      setEditValue("");
+      setLocalError(null);
+    } catch (err) {
+      console.error("Error updating expense:", err);
+    }
   };
 
   const handleKeyPress = (e, index, key) => {
@@ -106,7 +121,7 @@ const useExpenseList = () => {
     else if (e.key === "Escape") {
       setEditing(null);
       setEditValue("");
-      setError(null);
+      setLocalError(null);
     }
   };
 
@@ -118,11 +133,13 @@ const useExpenseList = () => {
     editing,
     editValue,
     error,
+    localError,
     handleSort,
     handleFilterChange,
     handleEditStart,
     handleEditConfirm,
     handleKeyPress,
+    clearError,
   };
 };
 

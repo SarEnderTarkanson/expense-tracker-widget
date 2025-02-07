@@ -2,7 +2,15 @@ import { useState, useEffect } from "react";
 import { useExpenses } from "../context/ExpenseContext";
 
 const useAddExpenseForm = () => {
-  const { categories, fetchCategories, loading, addExpense } = useExpenses();
+  const {
+    categories,
+    fetchCategories,
+    loading,
+    addExpense,
+    error,
+    clearError,
+  } = useExpenses();
+
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
@@ -21,13 +29,16 @@ const useAddExpenseForm = () => {
     }
   }, [categories, fetchCategories]);
 
-  const validateDate = (value) => {
-    return value.trim() !== "";
-  };
+  useEffect(() => {
+    if (error) {
+      setAlert({ type: "danger", message: error });
+    }
+  }, [error]);
 
-  const validateName = (value) => {
-    return /[a-zA-Z]/.test(value) && !/^\d+(\.\d+)?$/.test(value);
-  };
+  const validateDate = (value) => value.trim() !== "";
+
+  const validateName = (value) =>
+    /[a-zA-Z]/.test(value) && !/^\d+(\.\d+)?$/.test(value);
 
   const handleNameChange = (e) => {
     const value = e.target.value;
@@ -72,7 +83,7 @@ const useAddExpenseForm = () => {
     e.preventDefault();
 
     const newWarnings = {
-      name: name.trim() === "" ? "Please enter a name." : "",
+      name: name.trim() === "" ? "Please enter a name." : warnings.name,
       amount:
         !amount || Number(amount) <= 0 ? "Please enter a positive amount." : "",
       category: category === "" ? "Please select a category." : "",
@@ -113,6 +124,7 @@ const useAddExpenseForm = () => {
 
   const clearAlert = () => {
     setAlert(null);
+    clearError();
   };
 
   return {

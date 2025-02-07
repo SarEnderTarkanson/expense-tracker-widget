@@ -28,9 +28,12 @@ const expenseReducer = (state, action) => {
         categories: action.payload,
         categoryColors: assignCategoryColors(action.payload),
       };
-
+    case "FETCH_CATEGORIES_FAILURE":
+      return { ...state, error: action.payload };
     case "ADD_EXPENSE_SUCCESS":
       return { ...state, expenseList: [...state.expenseList, action.payload] };
+    case "ADD_EXPENSE_FAILURE":
+      return { ...state, error: action.payload };
     case "UPDATE_EXPENSE_SUCCESS":
       return {
         ...state,
@@ -38,6 +41,12 @@ const expenseReducer = (state, action) => {
           expense.id === action.payload.id ? action.payload : expense
         ),
       };
+    case "UPDATE_EXPENSE_FAILURE":
+      return { ...state, error: action.payload };
+
+    case "CLEAR_ERROR":
+      return { ...state, error: null };
+
     default:
       return state;
   }
@@ -62,6 +71,7 @@ export const ExpenseProvider = ({ children }) => {
       const response = await axios.get(categoriesApiUrl);
       dispatch({ type: "FETCH_CATEGORIES_SUCCESS", payload: response.data });
     } catch (err) {
+      dispatch({ type: "FETCH_CATEGORIES_FAILURE", payload: err.message });
       console.error("Error fetching categories:", err.message);
     }
   };
@@ -72,6 +82,7 @@ export const ExpenseProvider = ({ children }) => {
       const response = await axios.post(expenseApiUrl, newExpense);
       dispatch({ type: "ADD_EXPENSE_SUCCESS", payload: response.data });
     } catch (err) {
+      dispatch({ type: "ADD_EXPENSE_FAILURE", payload: err.message });
       console.error("Error adding expense:", err.message);
     }
   };
@@ -84,9 +95,12 @@ export const ExpenseProvider = ({ children }) => {
       );
       dispatch({ type: "UPDATE_EXPENSE_SUCCESS", payload: response.data });
     } catch (err) {
+      dispatch({ type: "UPDATE_EXPENSE_FAILURE", payload: err.message });
       console.error("Error updating expense:", err.message);
     }
   };
+
+  const clearError = () => dispatch({ type: "CLEAR_ERROR" });
 
   useEffect(() => {
     fetchCategories();
@@ -101,6 +115,7 @@ export const ExpenseProvider = ({ children }) => {
         fetchCategories,
         addExpense,
         updateExpense,
+        clearError,
       }}
     >
       {children}

@@ -15,10 +15,12 @@ const ExpenseList = () => {
     editing,
     editValue,
     error,
+    localError,
     handleSort,
     handleFilterChange,
     handleEditStart,
     handleKeyPress,
+    clearError,
   } = useExpenseList();
 
   const editFieldRef = useRef(null);
@@ -28,6 +30,15 @@ const ExpenseList = () => {
       editFieldRef.current?.focus();
     }
   }, [editing]);
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        clearError();
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, clearError]);
 
   const getSortIcon = (key) => {
     if (sortConfig.key !== key || sortConfig.direction === "none") {
@@ -57,6 +68,12 @@ const ExpenseList = () => {
       <h4 id="expense-list-title" className={`expense-list-title ${theme}`}>
         <i className="bi bi-list-ul expense-list-icon"></i> Expense List
       </h4>
+
+      {error && (
+        <div className="alert alert-danger fade show" role="alert">
+          {error}
+        </div>
+      )}
 
       <div className="mb-3">
         <label htmlFor="filter-category" className={`filter-label ${theme}`}>
@@ -183,9 +200,9 @@ const ExpenseList = () => {
         )}
       </div>
 
-      {error && (
-        <p className="error-text text-danger mt-2" role="alert">
-          {error}
+      {localError && (
+        <p className="error-text text-warning mt-2" role="alert">
+          {localError}
         </p>
       )}
     </section>

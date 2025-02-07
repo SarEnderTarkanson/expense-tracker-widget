@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -25,8 +25,18 @@ ChartJS.register(
 
 const ExpenseLineChart = () => {
   const { theme } = useTheme();
-  const { chartData, options, customLegend } = useExpenseLineChart();
+  const { chartData, options, customLegend, error, clearError } =
+    useExpenseLineChart();
   const hasData = chartData.datasets.some((dataset) => dataset.data.length > 0);
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        clearError();
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, clearError]);
 
   return (
     <section
@@ -36,23 +46,28 @@ const ExpenseLineChart = () => {
       <h4 id="expense-trend-title" className={`expense-trend-title ${theme}`}>
         <i className="bi bi-graph-up expense-trend-icon"></i> Expense Trend
       </h4>
+      {error && (
+        <div className="alert alert-danger fade show" role="alert">
+          {error}
+          
+        </div>
+      )}
 
       <div className="chart-container">
         {hasData ? (
-          <>
-            <Line
-              data={chartData}
-              options={options}
-              role="presentation"
-              aria-hidden="true"
-            />
-          </>
+          <Line
+            data={chartData}
+            options={options}
+            role="presentation"
+            aria-hidden="true"
+          />
         ) : (
-          <p className={`no data-container ${theme}`} aria-live="polite">
+          <p className={`no-data-container ${theme}`} aria-live="polite">
             No data available yet.
           </p>
         )}
       </div>
+
       {hasData && customLegend}
     </section>
   );

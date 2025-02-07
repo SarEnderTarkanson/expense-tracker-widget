@@ -3,7 +3,7 @@ import { useExpenses } from "../context/ExpenseContext";
 import { useTheme } from "../context/ThemeContext";
 
 const useExpenseLineChart = () => {
-  const { expenseList } = useExpenses();
+  const { expenseList, error, clearError } = useExpenses();
   const { theme } = useTheme();
 
   const aggregatedData = useMemo(() => {
@@ -110,7 +110,7 @@ const useExpenseLineChart = () => {
     };
   }, [theme]);
 
-  return { chartData, options, customLegend };
+  return { chartData, options, customLegend, error, clearError };
 };
 
 export default useExpenseLineChart;

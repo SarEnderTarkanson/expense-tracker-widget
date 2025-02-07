@@ -1,12 +1,24 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { useExpenses } from "../context/ExpenseContext";
 import { useTheme } from "../context/ThemeContext";
 
 const useExpensePieChart = () => {
-  const { expenseList, categories, categoryColors } = useExpenses();
+  const { expenseList, categories, categoryColors, error, clearError } =
+    useExpenses();
   const { theme } = useTheme();
 
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        clearError();
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, clearError]);
+
   const categoryData = useMemo(() => {
+    if (error) return {};
+
     const totals = categories.reduce((acc, category) => {
       acc[category.name] = 0;
       return acc;
@@ -19,7 +31,7 @@ const useExpensePieChart = () => {
     });
 
     return totals;
-  }, [expenseList, categories]);
+  }, [expenseList, categories, error]);
 
   const hasData = useMemo(
     () => Object.values(categoryData).some((value) => value > 0),
@@ -27,7 +39,7 @@ const useExpensePieChart = () => {
   );
 
   const expenseData = useMemo(() => {
-    if (!hasData) return null;
+    if (!hasData || error) return null;
 
     const labels = Object.keys(categoryData);
     const dataValues = Object.values(categoryData);
@@ -49,10 +61,10 @@ const useExpensePieChart = () => {
         },
       ],
     };
-  }, [categoryData, categoryColors, hasData, theme]);
+  }, [categoryData, categoryColors, hasData, theme, error]);
 
   const customLegend = useMemo(() => {
-    if (!hasData || !expenseData) return null;
+    if (!hasData || !expenseData || error) return null;
 
     return (
       <ul className={`custom-legend ${theme}`}>
@@ -60,14 +72,16 @@ const useExpensePieChart = () => {
           <li key={index}>
             <span
               className="legend-color"
-              style={{ backgroundColor: expenseData.datasets[0].backgroundColor[index] }}
+              style={{
+                backgroundColor: expenseData.datasets[0].backgroundColor[index],
+              }}
             ></span>
             {label}
           </li>
         ))}
       </ul>
     );
-  }, [expenseData, hasData, theme]);
+  }, [expenseData, hasData, theme, error]);
 
   const options = useMemo(() => {
     return {
@@ -80,7 +94,10 @@ const useExpensePieChart = () => {
           callbacks: {
             label: (tooltipItem) => {
               const value = tooltipItem.raw;
-              const total = Object.values(categoryData).reduce((a, b) => a + b, 0);
+              const total = Object.values(categoryData).reduce(
+                (a, b) => a + b,
+                0
+              );
               return `${value} NOK (${
                 total > 0 ? ((value / total) * 100).toFixed(2) : "0.00"
               }%)`;
@@ -93,7 +110,7 @@ const useExpensePieChart = () => {
     };
   }, [categoryData]);
 
-  return { expenseData, options, hasData, customLegend };
+  return { expenseData, options, hasData, customLegend, error, clearError };
 };
 
 export default useExpensePieChart;
